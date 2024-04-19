@@ -1,4 +1,4 @@
-import MenuProfile from "../components/Menu/MenuProfile";
+import MenuProfile from "../components/menu/MenuProfile";
 
 const Profile = () => {
   return (

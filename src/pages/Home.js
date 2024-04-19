@@ -1,5 +1,5 @@
 import { useState } from "react";
-import Menu from "../components/Menu/Menu";
+import Menu from "../components/menu/Menu";
 import { TextField, InputAdornment } from "@mui/material";
 import SearchIcon from "@mui/icons-material/Search";
 import FavoriteBorderOutlinedIcon from "@mui/icons-material/FavoriteBorderOutlined";

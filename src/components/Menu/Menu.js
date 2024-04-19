@@ -1,11 +1,16 @@
+import { useState } from "react";
 import { Link } from "react-router-dom";
 import Header from "../Header";
+import Post from "../modal/Post";
 import HomeIcon from "@mui/icons-material/Home";
 import SendOutlinedIcon from "@mui/icons-material/SendOutlined";
 import LibraryAddOutlinedIcon from "@mui/icons-material/LibraryAddOutlined";
 import AccountCircleOutlinedIcon from "@mui/icons-material/AccountCircleOutlined";
 
 const Menu = () => {
+  const [open, setOpen] = useState(false);
+  const handleOpen = () => setOpen(true);
+
   return (
     <div
       className="left"
@@ -35,10 +40,11 @@ const Menu = () => {
         </Link>
         <div
           style={{ display: "flex", marginBottom: "20px", cursor: "pointer" }}
+          onClick={handleOpen}
         >
           <LibraryAddOutlinedIcon style={{ width: "50", height: "50" }} />
           <div style={{ margin: "0px 20px" }}>
-            <h3>업로드</h3>
+            <h3>만들기</h3>
           </div>
         </div>
         <Link to="/Profile" style={{ textDecoration: "none", color: "black" }}>
@@ -63,6 +69,7 @@ const Menu = () => {
           로그아웃
         </Link>
       </div>
+      <Post open={open} setOpen={setOpen} />
     </div>
   );
 };

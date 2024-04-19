@@ -1,4 +1,4 @@
-import MenuMessage from "../components/Menu/MenuMessage";
+import MenuMessage from "../components/menu/MenuMessage";
 
 const Message = () => {
   return (

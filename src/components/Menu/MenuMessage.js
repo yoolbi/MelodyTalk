@@ -1,10 +1,15 @@
+import { useState } from "react";
 import { Link } from "react-router-dom";
+import Post from "../modal/Post";
 import HomeOutlinedIcon from "@mui/icons-material/HomeOutlined";
 import SendIcon from "@mui/icons-material/Send";
 import LibraryAddOutlinedIcon from "@mui/icons-material/LibraryAddOutlined";
 import AccountCircleOutlinedIcon from "@mui/icons-material/AccountCircleOutlined";
 
 const MenuMessage = () => {
+  const [open, setOpen] = useState(false);
+  const handleOpen = () => setOpen(true);
+
   return (
     <div
       className="left"
@@ -44,7 +49,10 @@ const MenuMessage = () => {
             style={{ width: "50", height: "50", marginBottom: "30px" }}
           />
         </Link>
-        <div style={{ cursor: "pointer", marginBottom: "30px" }}>
+        <div
+          style={{ cursor: "pointer", marginBottom: "30px" }}
+          onClick={handleOpen}
+        >
           <LibraryAddOutlinedIcon style={{ width: "50", height: "50" }} />
         </div>
         <Link to="/Profile" style={{ color: "black" }}>
@@ -66,6 +74,7 @@ const MenuMessage = () => {
           로그아웃
         </Link>
       </div>
+      <Post open={open} setOpen={setOpen} />
     </div>
   );
 };
