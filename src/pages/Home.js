@@ -1,95 +1,29 @@
-import { Link } from "react-router-dom";
+import { useState } from "react";
+import Menu from "../components/Menu/Menu";
 import { TextField, InputAdornment } from "@mui/material";
-import HomeIcon from "@mui/icons-material/Home";
-import SendOutlinedIcon from "@mui/icons-material/SendOutlined";
-import LibraryAddOutlinedIcon from "@mui/icons-material/LibraryAddOutlined";
-import AccountCircleOutlinedIcon from "@mui/icons-material/AccountCircleOutlined";
 import SearchIcon from "@mui/icons-material/Search";
 import FavoriteBorderOutlinedIcon from "@mui/icons-material/FavoriteBorderOutlined";
 import MessageOutlinedIcon from "@mui/icons-material/MessageOutlined";
 
 const Home = () => {
+  const [search, setSearch] = useState("");
+
+  const handleChangeSearch = (e) => {
+    setSearch(e.target.value);
+  };
+
+  const handleKeyPress = (e) => {
+    if (e.key === "Enter") {
+      console.log(search);
+    }
+  };
+
   return (
     <div style={{ width: "100%", height: "100vh", display: "flex" }}>
-      <div
-        className="left"
-        style={{
-          width: "350px",
-          height: "100%",
-          border: "1px soid black",
-        }}
-      >
-        <div
-          className="header"
-          style={{
-            display: "flex",
-            height: "100px",
-            margin: "20px",
-          }}
-        >
-          <img
-            src="/logo.jpg"
-            alt="logo"
-            style={{
-              width: "40px",
-              height: "40px",
-              borderRadius: "50%",
-            }}
-          />
-          <div style={{ fontSize: "20px", margin: "5px 20px" }}>MelodyTALK</div>
-        </div>
-        <div className="menu" style={{ height: "70%", margin: "20px" }}>
-          <div
-            style={{ display: "flex", marginBottom: "20px", cursor: "pointer" }}
-          >
-            <HomeIcon style={{ width: "50", height: "50" }} />
-            <div style={{ margin: "0px 20px" }}>
-              <h3>홈</h3>
-            </div>
-          </div>
-          <div
-            style={{ display: "flex", marginBottom: "20px", cursor: "pointer" }}
-          >
-            <SendOutlinedIcon style={{ width: "50", height: "50" }} />
-            <div style={{ margin: "0px 20px" }}>
-              <h3>메시지</h3>
-            </div>
-          </div>
-          <div
-            style={{ display: "flex", marginBottom: "20px", cursor: "pointer" }}
-          >
-            <LibraryAddOutlinedIcon style={{ width: "50", height: "50" }} />
-            <div style={{ margin: "0px 20px" }}>
-              <h3>업로드</h3>
-            </div>
-          </div>
-          <div
-            style={{ display: "flex", marginBottom: "20px", cursor: "pointer" }}
-          >
-            <AccountCircleOutlinedIcon style={{ width: "50", height: "50" }} />
-            <div style={{ margin: "0px 20px" }}>
-              <h3>프로필</h3>
-            </div>
-          </div>
-        </div>
-        <div className="logout">
-          <Link
-            to="/"
-            style={{
-              color: "black",
-              position: "absolute",
-              bottom: "20px",
-              left: "20px",
-            }}
-          >
-            로그아웃
-          </Link>
-        </div>
-      </div>
+      <Menu />
       <div
         className="right"
         style={{
-          borderLeft: "1px solid #C4C4C4",
           width: "100%",
           height: "100%",
           display: "flex",
@@ -107,6 +41,8 @@ const Home = () => {
               </InputAdornment>
             ),
           }}
+          onKeyPress={handleKeyPress}
+          onChange={handleChangeSearch}
           style={{ marginTop: "40px", width: "80%", marginBottom: "60px" }}
         />
         <div
