@@ -1,25 +1,9 @@
 import React from "react";
 import { Link, useNavigate } from "react-router-dom";
-// import backgroundImage from './signup_background.png';
 import { Box, TextField, Typography, Button } from "@mui/material";
 // import urlJoin from "url-join";
 // import {loginAPIMethod} from "../api/client";
 // import Cookies from 'js-cookie';
-
-// const LoginBanner = () => {
-//     return (
-//         <div style={{width: "100%", height: "60px", border: "1px solid #CBCBCB"}}>
-//             <img
-//                 src="/images/logo.png"
-//                 style={{
-//                     width: "50px",
-//                     height: "50px",
-//                     marginLeft: "100px",
-//                     marginTop: "5px"
-//                 }}/>
-//         </div>
-//     );
-// }
 
 const Login = () => {
   const navigate = useNavigate();
@@ -43,11 +27,8 @@ const Login = () => {
   };
 
   return (
-    // <div style={{ width: "100%", height: "100%" }}>
-    // {/* <LoginBanner/> */}
     <div
       style={{
-        // backgroundImage: `url(${backgroundImage})`,
         backgroundSize: "cover",
         backgroundRepeat: "no-repeat",
         backgroundPosition: "center center",
@@ -113,7 +94,6 @@ const Login = () => {
         </Box>
       </div>
     </div>
-    // {/* </div> */}
   );
 };
 
