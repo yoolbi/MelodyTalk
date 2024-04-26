@@ -61,7 +61,7 @@ const Post = ({ open, setOpen }) => {
     }
   };
 
-  const [checked, setChecked] = useState(true);
+  const [checked, setChecked] = useState(false);
 
   const handleChangeChecked = (e) => {
     setChecked(e.target.checked);

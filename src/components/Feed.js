@@ -1,4 +1,5 @@
 import { useState } from "react";
+import Comment from "./modal/Comment";
 import FavoriteIcon from "@mui/icons-material/Favorite";
 import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
 import MessageOutlinedIcon from "@mui/icons-material/MessageOutlined";
@@ -6,6 +7,8 @@ import MessageOutlinedIcon from "@mui/icons-material/MessageOutlined";
 const Feed = () => {
   const [likeCount, setLikeCount] = useState(80);
   const [like, setLike] = useState(false);
+  const [openComment, setOpenComment] = useState(false);
+  const handleOpenComment = () => setOpenComment(true);
 
   const handleClickLike = () => {
     !like ? setLikeCount(likeCount + 1) : setLikeCount(likeCount - 1);
@@ -48,7 +51,10 @@ const Feed = () => {
                   onClick={handleClickLike}
                 />
               )}
-              <MessageOutlinedIcon style={{ cursor: "pointer" }} />
+              <MessageOutlinedIcon
+                style={{ cursor: "pointer" }}
+                onClick={handleOpenComment}
+              />
             </div>
             <div className="feed_like">좋아요 {likeCount}개</div>
             <div className="feed_text">
@@ -60,6 +66,7 @@ const Feed = () => {
           </div>
         );
       })}
+      <Comment openComment={openComment} setOpenComment={setOpenComment} />
     </>
   );
 };
