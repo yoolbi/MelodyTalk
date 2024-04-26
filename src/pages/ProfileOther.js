@@ -1,10 +1,11 @@
 import { useState } from "react";
+import { useLocation } from "react-router-dom";
 import MenuProfile from "../components/menu/MenuProfile";
 import AccountCircleIcon from "@mui/icons-material/AccountCircle";
-import { ImageList, ImageListItem } from "@mui/material";
+import { Button, ImageList, ImageListItem } from "@mui/material";
 import Follow from "../components/modal/Follow";
 
-const Profile = () => {
+const ProfileOther = () => {
   const itemData = [
     {
       img: "https://images.unsplash.com/photo-1551963831-b3b1ca40c98e",
@@ -55,12 +56,19 @@ const Profile = () => {
       title: "Bike",
     },
   ];
+  const { state } = useLocation();
   const [openFollow, setOpenFollow] = useState(false);
   const handleOpenFollow = () => setOpenFollow(true);
   const [clickFollowName, setClickFollowName] = useState("");
 
   const [followCount, setFollowCount] = useState(10);
   const [followingCount, setFollowingCount] = useState(10);
+  const [follow, setFollow] = useState(false);
+
+  const handleClickAddFollow = () => {
+    !follow ? setFollowCount(followCount + 1) : setFollowCount(followCount - 1);
+    setFollow(!follow);
+  };
 
   const handleClickFollowNum = (name) => {
     if (name === "follow") {
@@ -98,7 +106,32 @@ const Profile = () => {
             style={{ width: "80px", height: "80px", marginRight: "20px" }}
           />
           <div>
-            <b>yoolbi</b>
+            <div>
+              <b>{state.name}</b>
+              {!follow ? (
+                <Button
+                  variant="contained"
+                  size="small"
+                  style={{ margin: "0px 30px 0px 50px" }}
+                  onClick={handleClickAddFollow}
+                >
+                  팔로우 +
+                </Button>
+              ) : (
+                <Button
+                  variant="outlined"
+                  size="small"
+                  style={{ margin: "0px 30px 0px 50px" }}
+                  onClick={handleClickAddFollow}
+                >
+                  팔로잉
+                </Button>
+              )}
+
+              <Button variant="outlined" size="small">
+                메시지 보내기
+              </Button>
+            </div>
             <div style={{ display: "flex", marginTop: "15px" }}>
               <div>게시물 {itemData.length}</div>
               <div style={{ margin: "0px 30px" }}>
@@ -152,4 +185,4 @@ const Profile = () => {
   );
 };
 
-export default Profile;
+export default ProfileOther;

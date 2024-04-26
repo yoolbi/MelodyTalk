@@ -22,7 +22,7 @@ const Comment = ({ openComment, setOpenComment }) => {
   const handleCloseComment = () => setOpenComment(false);
   const [newComment, setNewComment] = useState("");
   const [comments, setComments] = useState([
-    ["yoolbi", "좋아요"],
+    ["kim", "좋아요"],
     ["leee", "굿"],
   ]);
 

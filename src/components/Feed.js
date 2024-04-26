@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import Comment from "./modal/Comment";
 import FavoriteIcon from "@mui/icons-material/Favorite";
 import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
@@ -9,10 +10,16 @@ const Feed = () => {
   const [like, setLike] = useState(false);
   const [openComment, setOpenComment] = useState(false);
   const handleOpenComment = () => setOpenComment(true);
+  const navigate = useNavigate();
 
   const handleClickLike = () => {
     !like ? setLikeCount(likeCount + 1) : setLikeCount(likeCount - 1);
     setLike(!like);
+  };
+
+  const handleClickOtherUser = (data) => {
+    console.log(data);
+    navigate("/ProfileOther", { state: { name: data } });
   };
 
   return (
@@ -58,7 +65,13 @@ const Feed = () => {
             </div>
             <div className="feed_like">좋아요 {likeCount}개</div>
             <div className="feed_text">
-              <b>yoolbi </b>오늘의 노래 <br />
+              <b
+                style={{ cursor: "pointer" }}
+                onClick={(e) => handleClickOtherUser(e.target.textContent)}
+              >
+                leee{" "}
+              </b>
+              오늘의 노래 <br />
             </div>
             {/* <div className="feed_comment">
         <b>leee </b>너무 좋아요~

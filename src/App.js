@@ -5,6 +5,7 @@ import SignUp from "./pages/SignUp";
 import Login from "./pages/Login";
 import Message from "./pages/Message";
 import Profile from "./pages/Profile";
+import ProfileOther from "./pages/ProfileOther";
 import "./index.css";
 
 function App() {
@@ -16,6 +17,7 @@ function App() {
         <Route path="/Home" element={<Home />} />
         <Route path="/Message" element={<Message />} />
         <Route path="/Profile" element={<Profile />} />
+        <Route path="/ProfileOther" element={<ProfileOther />} />
       </Routes>
     </Router>
   );
