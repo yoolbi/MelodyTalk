@@ -3,6 +3,7 @@ import MenuProfile from "../components/menu/MenuProfile";
 import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 import { ImageList, ImageListItem } from "@mui/material";
 import Follow from "../components/modal/Follow";
+import ProfileFeed from "../components/modal/ProfileFeed";
 
 const Profile = () => {
   const itemData = [
@@ -58,6 +59,9 @@ const Profile = () => {
   const [openFollow, setOpenFollow] = useState(false);
   const handleOpenFollow = () => setOpenFollow(true);
   const [clickFollowName, setClickFollowName] = useState("");
+
+  const [openProfileFeed, setOpenProfileFeed] = useState(false);
+  const handleOpenProfileFeed = () => setOpenProfileFeed(true);
 
   const [followCount, setFollowCount] = useState(10);
   const [followingCount, setFollowingCount] = useState(10);
@@ -137,6 +141,7 @@ const Profile = () => {
                     objectFit: "cover",
                     cursor: "pointer",
                   }}
+                  onClick={handleOpenProfileFeed}
                 />
               </ImageListItem>
             ))}
@@ -147,6 +152,10 @@ const Profile = () => {
         openFollow={openFollow}
         setOpenFollow={setOpenFollow}
         clickFollowName={clickFollowName}
+      />
+      <ProfileFeed
+        openProfileFeed={openProfileFeed}
+        setOpenProfileFeed={setOpenProfileFeed}
       />
     </div>
   );
