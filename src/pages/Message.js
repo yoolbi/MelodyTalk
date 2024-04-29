@@ -1,4 +1,5 @@
 import MenuMessage from "../components/menu/MenuMessage";
+import { Session, Inbox } from "@talkjs/react";
 
 const Message = () => {
   return (
@@ -12,9 +13,15 @@ const Message = () => {
           display: "flex",
           flexDirection: "column",
           alignItems: "center",
+          paddingLeft: "10px",
         }}
       >
-        message
+        <Session appId="tJczPqBv" userId="sample_user_alice">
+          <Inbox
+            conversationId="sample_conversation"
+            style={{ width: "100%", height: "99.5%" }}
+          />
+        </Session>
       </div>
     </div>
   );
