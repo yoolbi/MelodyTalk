@@ -74,7 +74,6 @@ const SignUp = () => {
               label="Name"
               name="name"
               autoComplete="name"
-              autoFocus
             />
             <TextField
               margin="normal"
@@ -84,7 +83,6 @@ const SignUp = () => {
               label="User ID"
               name="userID"
               autoComplete="userID"
-              autoFocus
             />
             <TextField
               margin="normal"

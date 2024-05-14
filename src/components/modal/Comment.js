@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { Modal, Box, TextField } from "@mui/material";
+import { useNavigate } from "react-router-dom";
 
 const style = {
   position: "absolute",
@@ -37,6 +38,12 @@ const Comment = ({ openComment, setOpenComment }) => {
     }
   };
 
+  const navigate = useNavigate();
+  const handleClickOtherUser = (data) => {
+    console.log(data);
+    navigate("/ProfileOther", { state: { name: data } });
+  };
+
   return (
     <div>
       <Modal
@@ -50,7 +57,13 @@ const Comment = ({ openComment, setOpenComment }) => {
             {comments.map((data, idx) => {
               return (
                 <div key={idx} style={{ marginBottom: "5px" }}>
-                  <b>{data[0]}</b> {data[1]}
+                  <b
+                    style={{ cursor: "pointer" }}
+                    onClick={(e) => handleClickOtherUser(e.target.textContent)}
+                  >
+                    {data[0]}
+                  </b>{" "}
+                  {data[1]}
                 </div>
               );
             })}
