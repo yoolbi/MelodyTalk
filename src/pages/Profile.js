@@ -156,6 +156,7 @@ const Profile = () => {
       <ProfileFeed
         openProfileFeed={openProfileFeed}
         setOpenProfileFeed={setOpenProfileFeed}
+        name={"yoolbi"}
       />
     </div>
   );

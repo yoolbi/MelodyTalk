@@ -43,12 +43,12 @@ const SignUp = () => {
           }}
         >
           <img
-            style={{ width: "100px", height: "100px" }}
+            style={{ width: "100px", height: "100px", marginBottom: "5px" }}
             src="/logo.jpg"
             alt="logo"
           />
           <Typography component="h1" variant="h5">
-            Sign Up
+            회원가입
           </Typography>
           <Box
             component="form"
@@ -61,7 +61,7 @@ const SignUp = () => {
               required
               fullWidth
               id="email"
-              label="Email Address"
+              label="이메일"
               name="email"
               autoComplete="email"
               autoFocus
@@ -71,7 +71,7 @@ const SignUp = () => {
               required
               fullWidth
               id="name"
-              label="Name"
+              label="이름"
               name="name"
               autoComplete="name"
             />
@@ -80,7 +80,7 @@ const SignUp = () => {
               required
               fullWidth
               id="userID"
-              label="User ID"
+              label="사용자 ID"
               name="userID"
               autoComplete="userID"
             />
@@ -89,10 +89,20 @@ const SignUp = () => {
               required
               fullWidth
               name="password"
-              label="Password"
+              label="비밀번호"
               type="password"
               id="password"
               autoComplete="current-password"
+            />
+            <TextField
+              margin="normal"
+              required
+              fullWidth
+              name="country"
+              label="국적"
+              type="country"
+              id="country"
+              autoComplete="country"
             />
             <Button
               type="submit"
@@ -101,9 +111,9 @@ const SignUp = () => {
               // color="success"
               sx={{ mt: 3, mb: 2 }}
             >
-              Sign Up
+              회원가입
             </Button>
-            <Link to="/">{"Already have an account? Login"}</Link>
+            <Link to="/">{"계정이 있으신가요? 로그인"}</Link>
           </Box>
         </div>
       </div>

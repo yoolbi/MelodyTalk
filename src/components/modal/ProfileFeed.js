@@ -23,7 +23,7 @@ const style = {
   maxWidth: "700px",
 };
 
-const ProfileFeed = ({ openProfileFeed, setOpenProfileFeed }) => {
+const ProfileFeed = ({ openProfileFeed, setOpenProfileFeed, name }) => {
   const handleCloseComment = () => setOpenProfileFeed(false);
   const [likeCount, setLikeCount] = useState(80);
   const [like, setLike] = useState(false);
@@ -81,6 +81,19 @@ const ProfileFeed = ({ openProfileFeed, setOpenProfileFeed }) => {
               <b>yoolbi </b>
               오늘의 노래 <br />
             </div>
+            {name === "yoolbi" && (
+              <div
+                style={{
+                  color: "red",
+                  textDecoration: "underline",
+                  cursor: "pointer",
+                  marginTop: "10px",
+                  float: "right",
+                }}
+              >
+                삭제
+              </div>
+            )}
           </div>
         </Box>
       </Modal>
