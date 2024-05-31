@@ -4,6 +4,9 @@ import Comment from "./modal/Comment";
 import FavoriteIcon from "@mui/icons-material/Favorite";
 import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
 import MessageOutlinedIcon from "@mui/icons-material/MessageOutlined";
+import AudioPlayer from "react-h5-audio-player";
+import "react-h5-audio-player/lib/styles.css";
+import Follow from "../components/modal/Follow";
 
 const Feed = () => {
   const [likeCount, setLikeCount] = useState(80);
@@ -11,6 +14,9 @@ const Feed = () => {
   const [openComment, setOpenComment] = useState(false);
   const handleOpenComment = () => setOpenComment(true);
   const navigate = useNavigate();
+
+  const [openLike, setOpenLike] = useState(false);
+  const handleOpenLike = () => setOpenLike(true);
 
   const handleClickLike = () => {
     !like ? setLikeCount(likeCount + 1) : setLikeCount(likeCount - 1);
@@ -29,20 +35,25 @@ const Feed = () => {
           <div
             className="feed"
             key={idx}
-            style={{ width: "80%", marginBottom: "15px" }}
+            style={{ width: "80%", marginBottom: "20px" }}
           >
-            <div
-              className="feed_image"
+            <img
+              src="/logo.jpg"
+              alt="logo"
               style={{
-                backgroundColor: "#C4C4C4",
                 width: "100%",
                 height: "300px",
               }}
-            ></div>
+            />
+            <AudioPlayer
+              autoPlay
+              src="/musicTest.mp3"
+              onPlay={(e) => console.log("onPlay")}
+            />
             <div
               className="feed_reaction"
               style={{
-                marginTop: "5px",
+                marginTop: "10px",
                 display: "flex",
                 alignItems: "flex-start",
               }}
@@ -63,7 +74,13 @@ const Feed = () => {
                 onClick={handleOpenComment}
               />
             </div>
-            <div className="feed_like">좋아요 {likeCount}개</div>
+            <div
+              className="feed_like"
+              style={{ cursor: "pointer" }}
+              onClick={handleOpenLike}
+            >
+              좋아요 {likeCount}개
+            </div>
             <div className="feed_text">
               <b
                 style={{ cursor: "pointer" }}
@@ -80,6 +97,11 @@ const Feed = () => {
         );
       })}
       <Comment openComment={openComment} setOpenComment={setOpenComment} />
+      <Follow
+        openFollow={openLike}
+        setOpenFollow={setOpenLike}
+        clickFollowName={"좋아요"}
+      />
     </>
   );
 };
