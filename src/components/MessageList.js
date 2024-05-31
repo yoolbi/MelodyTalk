@@ -33,16 +33,8 @@ const MessageList = () => {
         >
           <b>yoolbisdfsdfdsfsdsdfdssdf</b>
           <br />
-          Hi~sdfsdfdssdfsdffsdfsdsdfsdfd
+          <b>Hi~sdfsdfdssdfsdffsdfsdsdfsdfd</b>
         </div>
-        <div
-          style={{
-            backgroundColor: "#4d4dfff2",
-            width: "10px",
-            height: "10px",
-            borderRadius: "50%",
-          }}
-        ></div>
       </div>
       <div
         style={{

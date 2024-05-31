@@ -27,7 +27,12 @@ const Search = () => {
       }}
       onKeyPress={handleKeyPress}
       onChange={handleChangeSearch}
-      style={{ marginTop: "40px", width: "80%", marginBottom: "60px" }}
+      style={{
+        marginTop: "40px",
+        width: "80%",
+        marginBottom: "60px",
+        maxWidth: "800px",
+      }}
     />
   );
 };

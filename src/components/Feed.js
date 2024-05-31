@@ -35,10 +35,10 @@ const Feed = () => {
           <div
             className="feed"
             key={idx}
-            style={{ width: "80%", marginBottom: "20px" }}
+            style={{ width: "80%", marginBottom: "20px", maxWidth: "800px" }}
           >
             <img
-              src="/logo.jpg"
+              src="/빵빵카와.png"
               alt="logo"
               style={{
                 width: "100%",

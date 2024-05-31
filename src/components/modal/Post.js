@@ -44,20 +44,20 @@ const VisuallyHiddenInput = styled("input")({
 const Post = ({ open, setOpen }) => {
   const handleClose = () => setOpen(false);
   const [comment, setComment] = useState("");
-  const [imageFileName, setImageFileName] = useState("");
-  const [musicFileName, setMusicFileName] = useState("");
+  const [imageFile, setImageFile] = useState("");
+  const [musicFile, setMusicFile] = useState("");
 
   const handleImageFileChange = (event) => {
     const file = event.target.files[0];
     if (file) {
-      setImageFileName(file.name);
+      setImageFile(file);
     }
   };
 
   const handleMusicFileChange = (event) => {
     const file = event.target.files[0];
     if (file) {
-      setMusicFileName(file.name);
+      setMusicFile(file);
     }
   };
 
@@ -68,8 +68,10 @@ const Post = ({ open, setOpen }) => {
   };
 
   const handleClickShare = () => {
-    console.log(imageFileName, musicFileName, comment, checked);
+    console.log(imageFile, musicFile, comment, checked);
+    handleClose();
   };
+
   return (
     <div>
       <Modal
@@ -81,7 +83,15 @@ const Post = ({ open, setOpen }) => {
         <Box sx={style}>
           <div
             style={{ width: "50%", height: "200px", backgroundColor: "grey" }}
-          ></div>
+          >
+            {imageFile && (
+              <img
+                src={URL.createObjectURL(imageFile)}
+                alt="postFeedImage"
+                style={{ width: "100%", height: "100%" }}
+              />
+            )}
+          </div>
           <Button
             component="label"
             role={undefined}
@@ -90,7 +100,7 @@ const Post = ({ open, setOpen }) => {
             startIcon={<AddPhotoAlternateIcon />}
             style={{ width: "50%", marginTop: "10px" }}
           >
-            사진 파일 업로드: {imageFileName}
+            사진 파일 업로드: {imageFile.name}
             <VisuallyHiddenInput
               type="file"
               accept="image/*"
@@ -105,7 +115,7 @@ const Post = ({ open, setOpen }) => {
             startIcon={<CloudUploadIcon />}
             style={{ width: "50%", marginTop: "10px" }}
           >
-            음원 파일 업로드: {musicFileName}
+            음원 파일 업로드: {musicFile.name}
             <VisuallyHiddenInput type="file" onChange={handleMusicFileChange} />
           </Button>
           <TextField
