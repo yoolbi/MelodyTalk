@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { Modal, Box, TextField } from "@mui/material";
 import { useNavigate } from "react-router-dom";
+import { useTranslation } from "react-i18next";
 
 const style = {
   position: "absolute",
@@ -20,6 +21,8 @@ const style = {
 };
 
 const Comment = ({ openComment, setOpenComment }) => {
+  const { t } = useTranslation();
+
   const handleCloseComment = () => setOpenComment(false);
   const [newComment, setNewComment] = useState("");
   const [comments, setComments] = useState([
@@ -53,7 +56,18 @@ const Comment = ({ openComment, setOpenComment }) => {
         aria-describedby="modal-modal-description"
       >
         <Box sx={style}>
-          <div style={{ width: "80%", height: "80%", overflow: "auto" }}>
+          <div
+            style={{
+              width: "100%",
+              height: "60px",
+              borderBottom: "1px solid #c4c4c4",
+              textAlign: "center",
+              marginBottom: "10px",
+            }}
+          >
+            <h3>{t(`home.comment`)}</h3>
+          </div>
+          <div style={{ width: "90%", height: "80%", overflow: "auto" }}>
             {comments.map((data, idx) => {
               return (
                 <div key={idx} style={{ marginBottom: "5px" }}>
@@ -69,7 +83,7 @@ const Comment = ({ openComment, setOpenComment }) => {
             })}
           </div>
           <TextField
-            style={{ width: "80%" }}
+            style={{ width: "100%" }}
             value={newComment}
             onKeyPress={handleKeyPress}
             onChange={handleChangeComment}

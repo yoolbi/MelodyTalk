@@ -11,6 +11,7 @@ import {
 import CloudUploadIcon from "@mui/icons-material/CloudUpload";
 import AddPhotoAlternateIcon from "@mui/icons-material/AddPhotoAlternate";
 import { styled } from "@mui/material/styles";
+import { useTranslation } from "react-i18next";
 
 const style = {
   position: "absolute",
@@ -42,6 +43,7 @@ const VisuallyHiddenInput = styled("input")({
 });
 
 const Post = ({ open, setOpen }) => {
+  const { t } = useTranslation();
   const handleClose = () => setOpen(false);
   const [comment, setComment] = useState("");
   const [imageFile, setImageFile] = useState("");
@@ -100,7 +102,7 @@ const Post = ({ open, setOpen }) => {
             startIcon={<AddPhotoAlternateIcon />}
             style={{ width: "50%", marginTop: "10px" }}
           >
-            사진 파일 업로드: {imageFile.name}
+            {t(`upload.image`)} {imageFile.name}
             <VisuallyHiddenInput
               type="file"
               accept="image/*"
@@ -115,13 +117,12 @@ const Post = ({ open, setOpen }) => {
             startIcon={<CloudUploadIcon />}
             style={{ width: "50%", marginTop: "10px" }}
           >
-            음원 파일 업로드: {musicFile.name}
+            {t(`upload.music`)} {musicFile.name}
             <VisuallyHiddenInput type="file" onChange={handleMusicFileChange} />
           </Button>
           <TextField
             id="outlined-textarea"
-            label="문구를 입력하세요"
-            placeholder="음원 설명"
+            label={t(`upload.comment`)}
             multiline
             style={{ width: "50%", marginTop: "10px" }}
             value={comment}
@@ -135,7 +136,7 @@ const Post = ({ open, setOpen }) => {
               control={
                 <Checkbox checked={checked} onChange={handleChangeChecked} />
               }
-              label="저작권 확인"
+              label={t(`upload.copyright`)}
             />
           </FormGroup>
           <Button
@@ -143,7 +144,7 @@ const Post = ({ open, setOpen }) => {
             style={{ width: "50%", marginTop: "5px" }}
             onClick={handleClickShare}
           >
-            게시물 공유하기
+            {t(`upload.upload`)}
           </Button>
         </Box>
       </Modal>

@@ -5,8 +5,10 @@ import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 import { Button, ImageList, ImageListItem } from "@mui/material";
 import Follow from "../components/modal/Follow";
 import ProfileFeed from "../components/modal/ProfileFeed";
+import { useTranslation } from "react-i18next";
 
 const ProfileOther = () => {
+  const { t } = useTranslation();
   const itemData = [
     {
       img: "https://images.unsplash.com/photo-1551963831-b3b1ca40c98e",
@@ -76,9 +78,9 @@ const ProfileOther = () => {
 
   const handleClickFollowNum = (name) => {
     if (name === "follow") {
-      setClickFollowName("팔로워");
+      setClickFollowName(t(`profile.follower`));
     } else if (name === "following") {
-      setClickFollowName("팔로잉");
+      setClickFollowName(t(`profile.following`));
     }
     handleOpenFollow();
   };
@@ -119,7 +121,7 @@ const ProfileOther = () => {
                   style={{ margin: "0px 30px 0px 50px" }}
                   onClick={handleClickAddFollow}
                 >
-                  팔로우 +
+                  {t(`profile.follow`)}
                 </Button>
               ) : (
                 <Button
@@ -128,18 +130,20 @@ const ProfileOther = () => {
                   style={{ margin: "0px 30px 0px 50px" }}
                   onClick={handleClickAddFollow}
                 >
-                  팔로잉
+                  {t(`profile.following`)}
                 </Button>
               )}
 
               <Button variant="outlined" size="small">
-                메시지 보내기
+                {t(`profile.message`)}
               </Button>
             </div>
             <div style={{ display: "flex", marginTop: "15px" }}>
-              <div>게시물 {itemData.length}</div>
+              <div>
+                {t(`profile.feed`)} {itemData.length}
+              </div>
               <div style={{ margin: "0px 30px" }}>
-                팔로워{" "}
+                {t(`profile.follower`)}{" "}
                 <b
                   style={{ cursor: "pointer" }}
                   onClick={() => handleClickFollowNum("follow")}
@@ -148,7 +152,7 @@ const ProfileOther = () => {
                 </b>
               </div>
               <div>
-                팔로잉{" "}
+                {t(`profile.following`)}{" "}
                 <b
                   style={{ cursor: "pointer" }}
                   onClick={() => handleClickFollowNum("following")}

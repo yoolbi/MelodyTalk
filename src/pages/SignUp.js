@@ -4,8 +4,11 @@ import { Box, TextField, Typography, Button } from "@mui/material";
 // import urlJoin from "url-join";
 // import {loginAPIMethod} from "../api/client";
 // import Cookies from 'js-cookie';
+import { useTranslation } from "react-i18next";
 
 const SignUp = () => {
+  const { t } = useTranslation();
+
   const handleSubmit = (event) => {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
@@ -48,7 +51,7 @@ const SignUp = () => {
             alt="logo"
           />
           <Typography component="h1" variant="h5">
-            회원가입
+            {t(`signup.signup`)}
           </Typography>
           <Box
             component="form"
@@ -61,7 +64,7 @@ const SignUp = () => {
               required
               fullWidth
               id="email"
-              label="이메일"
+              label={t(`signup.email`)}
               name="email"
               autoComplete="email"
               autoFocus
@@ -71,7 +74,7 @@ const SignUp = () => {
               required
               fullWidth
               id="name"
-              label="이름"
+              label={t(`signup.name`)}
               name="name"
               autoComplete="name"
             />
@@ -80,7 +83,7 @@ const SignUp = () => {
               required
               fullWidth
               id="userID"
-              label="사용자 ID"
+              label={t(`signup.id`)}
               name="userID"
               autoComplete="userID"
             />
@@ -89,7 +92,7 @@ const SignUp = () => {
               required
               fullWidth
               name="password"
-              label="비밀번호"
+              label={t(`signup.password`)}
               type="password"
               id="password"
               autoComplete="current-password"
@@ -99,7 +102,7 @@ const SignUp = () => {
               required
               fullWidth
               name="country"
-              label="국적"
+              label={t(`signup.nationality`)}
               type="country"
               id="country"
               autoComplete="country"
@@ -111,9 +114,9 @@ const SignUp = () => {
               // color="success"
               sx={{ mt: 3, mb: 2 }}
             >
-              회원가입
+              {t(`signup.signup`)}
             </Button>
-            <Link to="/">{"계정이 있으신가요? 로그인"}</Link>
+            <Link to="/"> {t(`signup.login`)}</Link>
           </Box>
         </div>
       </div>

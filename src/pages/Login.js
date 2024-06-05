@@ -1,12 +1,16 @@
-import React from "react";
+import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { Box, TextField, Typography, Button } from "@mui/material";
 import { Grade, InsertDriveFileRounded } from "@mui/icons-material";
 // import urlJoin from "url-join";
 // import {loginAPIMethod} from "../api/client";
 // import Cookies from 'js-cookie';
+import { useTranslation } from "react-i18next";
+import i18n from "../locales/i18n";
+import LanguageIcon from "@mui/icons-material/Language";
 
 const Login = () => {
+  const { t } = useTranslation();
   const navigate = useNavigate();
   const handleSubmit = (event) => {
     event.preventDefault();
@@ -27,6 +31,11 @@ const Login = () => {
     // })
   };
 
+  const [lang, setLang] = useState(i18n.language === "ko" ? "jp" : "ko");
+  const changeLanguage = () => {
+    i18n.changeLanguage(lang);
+    lang === "ko" ? setLang("jp") : setLang("ko");
+  };
   return (
     <div
       style={{
@@ -59,7 +68,7 @@ const Login = () => {
           alt="logo"
         />
         <Typography component="h1" variant="h5">
-          로그인
+          {t(`login.login`)}
         </Typography>
         <Box component="form" onSubmit={handleSubmit} noValidate sx={{ mt: 1 }}>
           <TextField
@@ -67,7 +76,7 @@ const Login = () => {
             required
             fullWidth
             id="email"
-            label="이메일"
+            label={t(`login.email`)}
             name="email"
             autoComplete="email"
             autoFocus
@@ -77,7 +86,7 @@ const Login = () => {
             required
             fullWidth
             name="password"
-            label="비밀번호"
+            label={t(`login.password`)}
             type="password"
             id="password"
             autoComplete="current-password"
@@ -89,11 +98,21 @@ const Login = () => {
             // color="success"
             sx={{ mt: 3, mb: 2 }}
           >
-            로그인
+            {t(`login.login`)}
           </Button>
-          <Link to="/SignUp">{"계정이 없으신가요? 회원가입"}</Link>
+          <Link to="/SignUp">{t(`login.signup`)}</Link>
           <br />
-          <Link to="/SignUp">{"비밀번호 찾기"}</Link>
+          <div
+            style={{
+              cursor: "pointer",
+              marginTop: "5px",
+              width: "fit-content",
+              display: "flex",
+            }}
+            onClick={changeLanguage}
+          >
+            <LanguageIcon /> {lang}
+          </div>
         </Box>
       </div>
     </div>

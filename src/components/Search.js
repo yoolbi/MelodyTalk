@@ -1,8 +1,10 @@
 import { useState } from "react";
 import { TextField, InputAdornment } from "@mui/material";
 import SearchIcon from "@mui/icons-material/Search";
+import { useTranslation } from "react-i18next";
 
 const Search = () => {
+  const { t } = useTranslation();
   const [search, setSearch] = useState("");
 
   const handleChangeSearch = (e) => {
@@ -17,7 +19,7 @@ const Search = () => {
   return (
     <TextField
       id="input-with-icon-textfield"
-      label="검색"
+      label={t(`home.search`)}
       InputProps={{
         startAdornment: (
           <InputAdornment position="start">

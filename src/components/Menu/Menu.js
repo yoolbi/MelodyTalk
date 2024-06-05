@@ -6,10 +6,19 @@ import HomeIcon from "@mui/icons-material/Home";
 import SendOutlinedIcon from "@mui/icons-material/SendOutlined";
 import LibraryAddOutlinedIcon from "@mui/icons-material/LibraryAddOutlined";
 import AccountCircleOutlinedIcon from "@mui/icons-material/AccountCircleOutlined";
+import { useTranslation } from "react-i18next";
+import i18n from "../../locales/i18n";
+import LanguageIcon from "@mui/icons-material/Language";
 
 const Menu = () => {
   const [open, setOpen] = useState(false);
   const handleOpen = () => setOpen(true);
+  const { t } = useTranslation();
+  const [lang, setLang] = useState(i18n.language === "ko" ? "jp" : "ko");
+  const changeLanguage = () => {
+    i18n.changeLanguage(lang);
+    lang === "ko" ? setLang("jp") : setLang("ko");
+  };
 
   return (
     <div
@@ -26,7 +35,7 @@ const Menu = () => {
           <div style={{ display: "flex", marginBottom: "20px" }}>
             <HomeIcon style={{ width: "50", height: "50" }} />
             <div style={{ margin: "0px 20px" }}>
-              <h3>홈</h3>
+              <h3>{t(`menu.home`)}</h3>
             </div>
           </div>
         </Link>
@@ -34,7 +43,7 @@ const Menu = () => {
           <div style={{ display: "flex", marginBottom: "20px" }}>
             <SendOutlinedIcon style={{ width: "50", height: "50" }} />
             <div style={{ margin: "0px 20px" }}>
-              <h3>메시지</h3>
+              <h3>{t(`menu.message`)}</h3>
             </div>
           </div>
         </Link>
@@ -44,30 +53,42 @@ const Menu = () => {
         >
           <LibraryAddOutlinedIcon style={{ width: "50", height: "50" }} />
           <div style={{ margin: "0px 20px" }}>
-            <h3>만들기</h3>
+            <h3>{t(`menu.post`)}</h3>
           </div>
         </div>
         <Link to="/Profile" style={{ textDecoration: "none", color: "black" }}>
           <div style={{ display: "flex", marginBottom: "20px" }}>
             <AccountCircleOutlinedIcon style={{ width: "50", height: "50" }} />
             <div style={{ margin: "0px 20px" }}>
-              <h3>프로필</h3>
+              <h3>{t(`menu.profile`)}</h3>
             </div>
           </div>
         </Link>
       </div>
-      <div className="logout">
+      <div
+        className="logout"
+        style={{
+          position: "absolute",
+          bottom: "20px",
+          left: "20px",
+          display: "flex",
+        }}
+      >
         <Link
           to="/"
           style={{
             color: "black",
-            position: "absolute",
-            bottom: "20px",
-            left: "20px",
           }}
         >
-          로그아웃
+          {t(`menu.logout`)}
         </Link>
+        <div
+          style={{ display: "flex", cursor: "pointer", marginLeft: "25px" }}
+          onClick={changeLanguage}
+        >
+          <LanguageIcon />
+          {lang}
+        </div>
       </div>
       <Post open={open} setOpen={setOpen} />
     </div>

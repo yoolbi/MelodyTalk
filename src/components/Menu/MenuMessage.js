@@ -5,8 +5,10 @@ import HomeOutlinedIcon from "@mui/icons-material/HomeOutlined";
 import SendIcon from "@mui/icons-material/Send";
 import LibraryAddOutlinedIcon from "@mui/icons-material/LibraryAddOutlined";
 import AccountCircleOutlinedIcon from "@mui/icons-material/AccountCircleOutlined";
+import { useTranslation } from "react-i18next";
 
 const MenuMessage = () => {
+  const { t } = useTranslation();
   const [open, setOpen] = useState(false);
   const handleOpen = () => setOpen(true);
 
@@ -68,10 +70,10 @@ const MenuMessage = () => {
             color: "black",
             position: "absolute",
             bottom: "20px",
-            left: "20px",
+            left: "15px",
           }}
         >
-          로그아웃
+          {t(`menu.logout`)}
         </Link>
       </div>
       <Post open={open} setOpen={setOpen} />

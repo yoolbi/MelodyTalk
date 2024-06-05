@@ -7,8 +7,10 @@ import MessageOutlinedIcon from "@mui/icons-material/MessageOutlined";
 import AudioPlayer from "react-h5-audio-player";
 import "react-h5-audio-player/lib/styles.css";
 import Follow from "../components/modal/Follow";
+import { useTranslation } from "react-i18next";
 
 const Feed = () => {
+  const { t } = useTranslation();
   const [likeCount, setLikeCount] = useState(80);
   const [like, setLike] = useState(false);
   const [openComment, setOpenComment] = useState(false);
@@ -79,7 +81,7 @@ const Feed = () => {
               style={{ cursor: "pointer" }}
               onClick={handleOpenLike}
             >
-              좋아요 {likeCount}개
+              {t(`home.like`)} {likeCount} {t(`home.like_unit`)}
             </div>
             <div className="feed_text">
               <b
@@ -100,7 +102,7 @@ const Feed = () => {
       <Follow
         openFollow={openLike}
         setOpenFollow={setOpenLike}
-        clickFollowName={"좋아요"}
+        clickFollowName={t(`home.like`)}
       />
     </>
   );
