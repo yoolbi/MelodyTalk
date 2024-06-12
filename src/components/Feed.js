@@ -48,7 +48,7 @@ const Feed = () => {
               }}
             />
             <AudioPlayer
-              autoPlay
+              // autoPlay
               src="/musicTest.mp3"
               onPlay={(e) => console.log("onPlay")}
             />

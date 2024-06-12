@@ -8,7 +8,7 @@ const Message = () => {
   return (
     <div style={{ width: "100%", height: "100vh", display: "flex" }}>
       <MenuMessage />
-      {/* <div
+      <div
         className="right"
         style={{
           width: "100%",
@@ -25,8 +25,8 @@ const Message = () => {
             style={{ width: "100%", height: "99.5%" }}
           />
         </Session>
-      </div> */}
-      <MessageList />
+      </div>
+      {/* <MessageList />
       <div
         style={{
           width: "100%",
@@ -50,7 +50,7 @@ const Message = () => {
         </div>
         <MessageContent />
         <TextField style={{ width: "90%" }} />
-      </div>
+      </div> */}
     </div>
   );
 };
