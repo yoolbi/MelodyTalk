@@ -3,7 +3,8 @@
     "email": "이메일",
     "password": "비밀번호",
     "login": "로그인",
-    "signup": "계정이 없으신가요? 회원가입"
+    "signup": "계정이 없으신가요? 회원가입",
+    "error_message": "이메일 또는 비밀번호를 확인해주세요"
   },
   "signup": {
     "email": "이메일",

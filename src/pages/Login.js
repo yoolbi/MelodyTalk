@@ -36,6 +36,9 @@ const Login = () => {
     i18n.changeLanguage(lang);
     lang === "ko" ? setLang("jp") : setLang("ko");
   };
+
+  const [error, setError] = useState(false);
+
   return (
     <div
       style={{
@@ -91,6 +94,12 @@ const Login = () => {
             id="password"
             autoComplete="current-password"
           />
+          <Box sx={{ height: "0.6em" }} />
+          {!error && (
+            <Typography style={{ color: "red", width: "100%" }}>
+              {t(`login.error_message`)}
+            </Typography>
+          )}
           <Button
             type="submit"
             fullWidth
