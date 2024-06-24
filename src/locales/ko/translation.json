@@ -13,7 +13,8 @@
     "password": "비밀번호",
     "nationality": "국적",
     "signup": "회원가입",
-    "login": "계정이 있으신가요? 로그인"
+    "login": "계정이 있으신가요? 로그인",
+    "intro": "설명"
   },
   "menu": {
     "home": "홈",

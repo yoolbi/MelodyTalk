@@ -40,7 +40,7 @@ const Feed = () => {
             style={{ width: "80%", marginBottom: "20px", maxWidth: "800px" }}
           >
             <img
-              src="/빵빵카와.png"
+              src="/feed_image.png"
               alt="logo"
               style={{
                 width: "100%",

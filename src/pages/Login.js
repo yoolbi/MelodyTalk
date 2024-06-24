@@ -1,13 +1,10 @@
 import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { Box, TextField, Typography, Button } from "@mui/material";
-import { Grade, InsertDriveFileRounded } from "@mui/icons-material";
-// import urlJoin from "url-join";
-// import {loginAPIMethod} from "../api/client";
-// import Cookies from 'js-cookie';
 import { useTranslation } from "react-i18next";
 import i18n from "../locales/i18n";
 import LanguageIcon from "@mui/icons-material/Language";
+import { loginAPI } from "../api/client";
 
 const Login = () => {
   const { t } = useTranslation();
@@ -15,20 +12,16 @@ const Login = () => {
   const handleSubmit = (event) => {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
-    console.log({
-      email: data.get("email"),
-      password: data.get("password"),
-    });
-    navigate("/Home");
-    // loginAPIMethod(data.get('email'), data.get('password')).then((data) => {
-    //     console.log(data);
-    //     if (data.status === 200) {
-    //         Cookies.set('access_token', data.body['access_token']);
-    //         window.location.replace(
-    //             urlJoin(process.env.REACT_APP_FRONTEND_URL, "/Home")
-    //         );
-    //     }
-    // })
+    loginAPI({ email: data.get("email"), password: data.get("password") }).then(
+      (res) => {
+        if (res.status === 200) {
+          setError(false);
+          navigate("/Home");
+        } else {
+          setError(true);
+        }
+      }
+    );
   };
 
   const [lang, setLang] = useState(i18n.language === "ko" ? "jp" : "ko");
@@ -95,7 +88,7 @@ const Login = () => {
             autoComplete="current-password"
           />
           <Box sx={{ height: "0.6em" }} />
-          {!error && (
+          {error && (
             <Typography style={{ color: "red", width: "100%" }}>
               {t(`login.error_message`)}
             </Typography>

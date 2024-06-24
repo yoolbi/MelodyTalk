@@ -1,20 +1,33 @@
 import React from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { Box, TextField, Typography, Button } from "@mui/material";
 // import urlJoin from "url-join";
 // import {loginAPIMethod} from "../api/client";
 // import Cookies from 'js-cookie';
 import { useTranslation } from "react-i18next";
+import { postUserAPI } from "../api/client";
 
 const SignUp = () => {
   const { t } = useTranslation();
+  const navigate = useNavigate();
 
   const handleSubmit = (event) => {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
-    console.log({
+    const user = {
+      username: data.get("username"),
       email: data.get("email"),
       password: data.get("password"),
+      name: data.get("name"),
+      country: data.get("country"),
+      intro: data.get("intro"),
+    };
+    postUserAPI(user).then((res) => {
+      if (res.status === 200) {
+        navigate("/Home");
+      } else {
+        console.log(res);
+      }
     });
   };
 
@@ -82,10 +95,10 @@ const SignUp = () => {
               margin="normal"
               required
               fullWidth
-              id="userID"
+              id="username"
               label={t(`signup.id`)}
-              name="userID"
-              autoComplete="userID"
+              name="username"
+              autoComplete="username"
             />
             <TextField
               margin="normal"
@@ -106,6 +119,16 @@ const SignUp = () => {
               type="country"
               id="country"
               autoComplete="country"
+            />
+            <TextField
+              margin="normal"
+              required
+              fullWidth
+              name="intro"
+              label={t(`signup.intro`)}
+              type="intro"
+              id="intro"
+              autoComplete="intro"
             />
             <Button
               type="submit"
