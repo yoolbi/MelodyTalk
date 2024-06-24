@@ -5,12 +5,12 @@ import java.util.Date;
 import lombok.Data;
 
 @Data
-public class PostDTO {
-	private String postID;
-	private String userID;
+public class PostVO {
+	private String post_id;
+	private String user_id;
 	private String content;
 	private String image;
-	private String musicFileName;
+	private String music_file_name;
 	private Integer copyright;
-	private Date createDate;
+	private Date createdate;
 }

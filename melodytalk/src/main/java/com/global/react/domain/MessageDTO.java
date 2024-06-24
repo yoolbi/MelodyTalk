@@ -5,9 +5,9 @@ import lombok.Data;
 
 @Data
 public class MessageDTO {
-	private String messageID;
-	private String messageGroupID;
-	private String userID;
+	private String message_id;
+	private String message_group_id;
+	private String user_id;
 	private String content;
-	private Date date;
+	private Date createdate;
 }

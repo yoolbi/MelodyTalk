@@ -5,9 +5,9 @@ import lombok.Data;
 
 @Data
 public class MessageGroupDTO {
-	private String messageGroupID;
-	private String fromUserID;
-	private String toUserID;
-	private Date date;
-	private Integer checkRead;
+	private String message_group_id;
+	private String from_user_id;
+	private String to_user_id;
+	private Date updatedate;
+	private Integer check_read;
 }

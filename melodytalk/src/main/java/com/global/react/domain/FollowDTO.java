@@ -4,7 +4,7 @@ import lombok.Data;
 
 @Data
 public class FollowDTO {
-	private String followID;
-	private String fromUserID;
-	private String toUserID;
+	private String follow_id;
+	private String from_user_id;
+	private String to_user_id;
 }
