@@ -1,6 +1,8 @@
 package com.global.react.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -34,15 +36,17 @@ public class UserController {
 	}
 	
 	@PostMapping("/login")
-	public void login(@RequestBody UserLoginRequest request) {
+	public ResponseEntity<String> login(@RequestBody UserLoginRequest request) {
 	    String email = request.getEmail();
 	    String password = request.getPassword();
 	    
 	    UserVO user = userSerivce.getUserByEmail(email);
 	    if (user != null && user.isValidPassword(password)) {
-	    	log.info("login success");
+	        log.info("login success");
+	        return ResponseEntity.ok("Login successful"); // HTTP 200 OK
 	    } else {
-	    	log.info("login failed");
+	        log.info("login failed");
+	        return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Login failed"); // HTTP 401 Unauthorized
 	    }
 	}
 	
