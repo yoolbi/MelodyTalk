@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.global.react.mapper.BoardMapper">
+
+	<select id="getList" resultType="com.global.react.domain.BoardVO">
+		<![CDATA[
+			select * 
+			from tbl_board 
+			where bno > 0 
+			and rownum <= 100
+		]]>
+	</select>
+
+</mapper>
