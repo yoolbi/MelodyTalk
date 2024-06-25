@@ -103,6 +103,18 @@ export const getLikesByPostAPI = (id) => {
     .catch((err) => err);
 };
 
+export const getLikesByUserAPI = (id) => {
+  return axios({
+    method: "get",
+    url: "/likes/getByUser",
+    params: {
+      user_id: id,
+    },
+  })
+    .then((res) => res)
+    .catch((err) => err);
+};
+
 export const postLikeAPI = (like) => {
   return axios({
     method: "post",
@@ -116,13 +128,14 @@ export const postLikeAPI = (like) => {
     .catch((err) => err);
 };
 
-export const deleteLikeAPI = (user_id, post_id) => {
+export const deleteLikeAPI = (like) => {
+  console.log(like);
   return axios({
     method: "delete",
     url: "/likes/delete",
     params: {
-      user_id: user_id,
-      post_id: post_id,
+      user_id: like.user_id,
+      post_id: like.post_id,
     },
   })
     .then((res) => res)

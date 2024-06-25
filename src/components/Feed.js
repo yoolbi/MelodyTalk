@@ -8,10 +8,16 @@ import AudioPlayer from "react-h5-audio-player";
 import "react-h5-audio-player/lib/styles.css";
 import Follow from "../components/modal/Follow";
 import { useTranslation } from "react-i18next";
-import { getAllPostsAPI } from "../api/client";
+import {
+  getAllPostsAPI,
+  getLikesByUserAPI,
+  postLikeAPI,
+  deleteLikeAPI,
+} from "../api/client";
+
 const Feed = () => {
   const { t } = useTranslation();
-  const [likeCount, setLikeCount] = useState(80);
+  const [likeCounts, setLikeCounts] = useState([]);
   const [like, setLike] = useState(false);
   const [openComment, setOpenComment] = useState(false);
   const handleOpenComment = () => setOpenComment(true);
@@ -19,13 +25,30 @@ const Feed = () => {
 
   const [openLike, setOpenLike] = useState(false);
   const [selectedPost, setSelectedPost] = useState("");
+
+  const [posts, setPosts] = useState([]);
+
   const handleOpenLike = (post_id) => {
     setSelectedPost(post_id);
     setOpenLike(true);
   };
 
-  const handleClickLike = () => {
-    !like ? setLikeCount(likeCount + 1) : setLikeCount(likeCount - 1);
+  const updateArray = (array, idx, newData, setArray) => {
+    let temp = [...array];
+    temp[idx] += newData;
+    setArray(temp);
+  };
+
+  const handleClickLike = (idx, post_id) => {
+    let body = { user_id: sessionStorage.getItem("user_id"), post_id: post_id };
+    console.log(body);
+    if (!like) {
+      updateArray(likeCounts, idx, 1, setLikeCounts);
+      postLikeAPI(body).then((res) => console.log(res));
+    } else {
+      updateArray(likeCounts, idx, -1, setLikeCounts);
+      deleteLikeAPI(body).then((res) => console.log(res));
+    }
     setLike(!like);
   };
 
@@ -34,19 +57,21 @@ const Feed = () => {
     navigate("/ProfileOther", { state: { name: data } });
   };
 
-  const [posts, setPosts] = useState([]);
   useEffect(() => {
     getAllPostsAPI()
       .then((res) => {
         setPosts(res.data);
-        console.log(res);
+        setLikeCounts(res.data.map((post) => post.like_count));
       })
+      .catch((err) => console.log(err));
+    getLikesByUserAPI(sessionStorage.getItem("user_id"))
+      .then((res) => console.log(res))
       .catch((err) => console.log(err));
   }, []);
 
   return (
     <>
-      {Array.from(posts).map((number, idx) => {
+      {Array.from(posts).map((post, idx) => {
         return (
           <div
             className="feed"
@@ -76,12 +101,12 @@ const Feed = () => {
               {!like ? (
                 <FavoriteBorderIcon
                   style={{ cursor: "pointer" }}
-                  onClick={handleClickLike}
+                  onClick={() => handleClickLike(idx, post.post_id)}
                 />
               ) : (
                 <FavoriteIcon
                   style={{ cursor: "pointer" }}
-                  onClick={handleClickLike}
+                  onClick={() => handleClickLike(idx, post.post_id)}
                 />
               )}
               <MessageOutlinedIcon
@@ -94,7 +119,7 @@ const Feed = () => {
               style={{ cursor: "pointer" }}
               onClick={() => handleOpenLike(posts[idx].post_id)}
             >
-              {t(`home.like`)} {posts[idx].like_count} {t(`home.like_unit`)}
+              {t(`home.like`)} {likeCounts[idx]} {t(`home.like_unit`)}
             </div>
             <div className="feed_text">
               <b
