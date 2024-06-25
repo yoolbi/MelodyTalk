@@ -129,7 +129,6 @@ export const postLikeAPI = (like) => {
 };
 
 export const deleteLikeAPI = (like) => {
-  console.log(like);
   return axios({
     method: "delete",
     url: "/likes/delete",

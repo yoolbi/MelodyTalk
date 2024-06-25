@@ -18,7 +18,7 @@ import {
 const Feed = () => {
   const { t } = useTranslation();
   const [likeCounts, setLikeCounts] = useState([]);
-  const [like, setLike] = useState(false);
+  const [likeData, setLikeData] = useState([]);
   const [openComment, setOpenComment] = useState(false);
   const handleOpenComment = () => setOpenComment(true);
   const navigate = useNavigate();
@@ -39,22 +39,36 @@ const Feed = () => {
     setArray(temp);
   };
 
+  const isPostLiked = (post_id) => {
+    return likeData.some((like) => like.post_id === post_id);
+  };
+
   const handleClickLike = (idx, post_id) => {
     let body = { user_id: sessionStorage.getItem("user_id"), post_id: post_id };
-    console.log(body);
-    if (!like) {
+    if (!isPostLiked(post_id)) {
       updateArray(likeCounts, idx, 1, setLikeCounts);
-      postLikeAPI(body).then((res) => console.log(res));
+      postLikeAPI(body).then((res) => {
+        fetchLikesForCurrentUser();
+      });
     } else {
       updateArray(likeCounts, idx, -1, setLikeCounts);
-      deleteLikeAPI(body).then((res) => console.log(res));
+      deleteLikeAPI(body).then((res) => {
+        fetchLikesForCurrentUser();
+      });
     }
-    setLike(!like);
   };
 
   const handleClickOtherUser = (data) => {
     console.log(data);
     navigate("/ProfileOther", { state: { name: data } });
+  };
+
+  const fetchLikesForCurrentUser = () => {
+    getLikesByUserAPI(sessionStorage.getItem("user_id"))
+      .then((res) => {
+        setLikeData(res.data);
+      })
+      .catch((err) => console.log(err));
   };
 
   useEffect(() => {
@@ -64,14 +78,13 @@ const Feed = () => {
         setLikeCounts(res.data.map((post) => post.like_count));
       })
       .catch((err) => console.log(err));
-    getLikesByUserAPI(sessionStorage.getItem("user_id"))
-      .then((res) => console.log(res))
-      .catch((err) => console.log(err));
+    fetchLikesForCurrentUser();
   }, []);
 
   return (
     <>
       {Array.from(posts).map((post, idx) => {
+        const isLiked = isPostLiked(post.post_id);
         return (
           <div
             className="feed"
@@ -98,7 +111,7 @@ const Feed = () => {
                 alignItems: "flex-start",
               }}
             >
-              {!like ? (
+              {!isLiked ? (
                 <FavoriteBorderIcon
                   style={{ cursor: "pointer" }}
                   onClick={() => handleClickLike(idx, post.post_id)}
