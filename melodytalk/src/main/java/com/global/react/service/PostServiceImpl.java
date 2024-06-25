@@ -31,8 +31,8 @@ public class PostServiceImpl implements PostService {
 	@Transactional
 	@Override
 	public void insertPost(PostVO postVO) {
-		postVO.setPost_id(UUID.randomUUID().toString());
-		postMapper.insertPost(postVO);
+	    postVO.setPost_id(UUID.randomUUID().toString());
+	    postMapper.insertPost(postVO);
 	}
 
 	@Transactional

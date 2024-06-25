@@ -36,14 +36,15 @@ public class UserController {
 	}
 	
 	@PostMapping("/login")
-	public ResponseEntity<String> login(@RequestBody UserLoginRequest request) {
+	public ResponseEntity<?> login(@RequestBody UserLoginRequest request) {
 	    String email = request.getEmail();
 	    String password = request.getPassword();
 	    
 	    UserVO user = userSerivce.getUserByEmail(email);
 	    if (user != null && user.isValidPassword(password)) {
 	        log.info("login success");
-	        return ResponseEntity.ok("Login successful"); // HTTP 200 OK
+
+	        return ResponseEntity.ok(user.getUser_id()); // HTTP 200 OK
 	    } else {
 	        log.info("login failed");
 	        return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Login failed"); // HTTP 401 Unauthorized

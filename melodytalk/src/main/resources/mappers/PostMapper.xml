@@ -14,7 +14,10 @@
 			    p.MUSIC_FILE_NAME,
 			    p.COPYRIGHT,
 			    p.CREATEDATE,
-			    (SELECT COUNT(*) FROM LIKES l WHERE l.POST_ID = p.POST_ID) AS LIKE_COUNT
+			    p.IMAGE_FILE,
+			    p.MUSIC_FILE,
+			    (SELECT COUNT(*) FROM LIKES l WHERE l.POST_ID = p.POST_ID) AS LIKE_COUNT,
+			    (SELECT USERNAME FROM USERS u WHERE p.USER_ID = u.USER_ID) AS USERNAME
 			FROM 
 			    POST p
 		]]>
@@ -30,7 +33,10 @@
 			    p.MUSIC_FILE_NAME,
 			    p.COPYRIGHT,
 			    p.CREATEDATE,
-			    (SELECT COUNT(*) FROM LIKES l WHERE l.POST_ID = p.POST_ID) AS LIKE_COUNT
+			    p.IMAGE_FILE,
+			    p.MUSIC_FILE,
+			    (SELECT COUNT(*) FROM LIKES l WHERE l.POST_ID = p.POST_ID) AS LIKE_COUNT,
+			    (SELECT USERNAME FROM USERS u WHERE p.USER_ID = u.USER_ID) AS USERNAME
 			FROM 
 			    POST p
 			WHERE USER_ID = #{userID}
@@ -38,21 +44,25 @@
 	</select>
 	
 	<insert id="insertPost">
-		INSERT INTO POST (
-			POST_ID
-			,USER_ID
-			,CONTENT
-			,IMAGE
-			,MUSIC_FILE_NAME
-			,COPYRIGHT
-		) values (
-			#{post_id}
-			,#{user_id}
-			,#{content}
-			,#{image}
-			,#{music_file_name}
-			,#{copyright}
-		)
+	    INSERT INTO POST (
+	        POST_ID,
+	        USER_ID,
+	        CONTENT,
+	        IMAGE,
+	        MUSIC_FILE_NAME,
+	        COPYRIGHT,
+	        IMAGE_FILE,
+	        MUSIC_FILE
+	    ) VALUES (
+	        #{post_id},
+	        #{user_id},
+	        #{content},
+	        #{image},
+	        #{music_file_name},
+	        #{copyright},
+	        #{image_file},
+	        #{music_file}
+	    )
 	</insert>
 	
 	<delete id="deletePost">
