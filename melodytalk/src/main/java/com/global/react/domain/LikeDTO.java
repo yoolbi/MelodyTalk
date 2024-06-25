@@ -7,4 +7,5 @@ public class LikeDTO {
 	private String like_id;
 	private String user_id;
 	private String post_id;
+	private String username;
 }

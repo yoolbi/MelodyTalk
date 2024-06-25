@@ -6,7 +6,13 @@
 	
 	<select id="getLikesByPost" resultType="com.global.react.domain.LikeDTO">
 		<![CDATA[
-			SELECT * FROM LIKES WHERE POST_ID = #{post_id}
+			SELECT
+				l.LIKE_ID
+				,l.POST_ID
+				,l.USER_ID
+				,(SELECT USERNAME FROM USERS u WHERE l.USER_ID = u.USER_ID) AS USERNAME
+			FROM LIKES l
+			WHERE POST_ID = #{post_id}
 		]]>
 	</select>
 	
