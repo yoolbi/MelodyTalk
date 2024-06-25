@@ -1,6 +1,8 @@
 package com.global.react.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -28,16 +30,27 @@ public class LikeController {
 	public Object getLikesByPost(@RequestParam("post_id") String post_id) {
 		return likeService.getLikesByPost(post_id);
 	}
+	
+	@GetMapping("/getByUser")
+	public Object getLikesByUser(@RequestParam("user_id") String user_id) {
+		return likeService.getLikesByUser(user_id);
+	}
 
 	@PostMapping("/insert")
-	public void insertPost(@RequestBody LikeDTO likeDTO) {
+	public void insertLike(@RequestBody LikeDTO likeDTO) {
 		likeService.insertLike(likeDTO);
 		log.info("insert like");
 	}
 	
 	@DeleteMapping("/delete")
-	public void deletePost(@RequestParam("user_id") String user_id, @RequestParam("post_id") String post_id) {
-		likeService.deleteLike(user_id, post_id);
-		log.info("delete like");
+	public ResponseEntity<?> deleteLike(@RequestParam("user_id") String user_id, @RequestParam("post_id") String post_id) {
+	    try {
+	        likeService.deleteLike(user_id, post_id);
+	        log.info("delete like");
+	        return ResponseEntity.ok().build();
+	    } catch (Exception e) {
+	        log.error("Error deleting like", e);
+	        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error deleting like: " + e.getMessage());
+	    }
 	}
 }

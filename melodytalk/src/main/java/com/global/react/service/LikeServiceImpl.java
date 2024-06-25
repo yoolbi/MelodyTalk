@@ -23,6 +23,11 @@ public class LikeServiceImpl implements LikeService {
 		return likeMapper.getLikesByPost(post_id);
 	}
 
+	@Override
+	public List<LikeDTO> getLikesByUser(String user_id) {
+		return likeMapper.getLikesByUser(user_id);
+	}
+
 	@Transactional
 	@Override
 	public void insertLike(LikeDTO likeDTO) {

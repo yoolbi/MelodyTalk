@@ -16,6 +16,17 @@
 		]]>
 	</select>
 	
+	<select id="getLikesByUser" resultType="com.global.react.domain.LikeDTO">
+		<![CDATA[
+			SELECT
+				LIKE_ID
+				,POST_ID
+				,USER_ID
+			FROM LIKES
+			WHERE USER_ID = #{user_id}
+		]]>
+	</select>
+	
 	<insert id="insertLike">
 		INSERT INTO LIKES (
 			LIKE_ID
@@ -29,7 +40,7 @@
 	</insert>
 	
 	<delete id="deleteLike">
-		DELETE LIKES WHERE USER_ID = #{user_id} AND POST_ID = #{post_id}
+	    DELETE FROM LIKES WHERE USER_ID = #{arg0} AND POST_ID = #{arg1}
 	</delete>
 
 </mapper>
