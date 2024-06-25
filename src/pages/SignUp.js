@@ -24,7 +24,7 @@ const SignUp = () => {
     };
     postUserAPI(user).then((res) => {
       if (res.status === 200) {
-        navigate("/Home");
+        navigate("/");
       } else {
         console.log(res);
       }

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { Box, TextField, Typography, Button } from "@mui/material";
 import { useTranslation } from "react-i18next";
@@ -9,12 +9,15 @@ import { loginAPI } from "../api/client";
 const Login = () => {
   const { t } = useTranslation();
   const navigate = useNavigate();
+
+  const [error, setError] = useState(false);
   const handleSubmit = (event) => {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
     loginAPI({ email: data.get("email"), password: data.get("password") }).then(
       (res) => {
         if (res.status === 200) {
+          sessionStorage.setItem("user_id", res.data);
           setError(false);
           navigate("/Home");
         } else {
@@ -30,7 +33,9 @@ const Login = () => {
     lang === "ko" ? setLang("jp") : setLang("ko");
   };
 
-  const [error, setError] = useState(false);
+  useEffect(() => {
+    sessionStorage.getItem("user_id") && navigate("/Home");
+  }, []);
 
   return (
     <div
