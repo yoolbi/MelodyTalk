@@ -70,20 +70,12 @@ export const getPostByUserIdAPI = (id) => {
     .catch((err) => err);
 };
 
-export const postFeedAPI = (post) => {
-  return axios({
-    method: "post",
-    url: "/posts/insert",
-    data: {
-      user_id: post.user_id,
-      content: post.content,
-      image: post.content,
-      music_file_name: post.content,
-      copyright: post.content,
+export const postFeedAPI = (formData) => {
+  return axios.post("/posts/insert", formData, {
+    headers: {
+      "Content-Type": "multipart/form-data",
     },
-  })
-    .then((res) => res)
-    .catch((err) => err);
+  });
 };
 
 export const deleteFeedAPI = (id) => {

@@ -12,6 +12,7 @@ import CloudUploadIcon from "@mui/icons-material/CloudUpload";
 import AddPhotoAlternateIcon from "@mui/icons-material/AddPhotoAlternate";
 import { styled } from "@mui/material/styles";
 import { useTranslation } from "react-i18next";
+import { postFeedAPI } from "../../api/client";
 
 const style = {
   position: "absolute",
@@ -70,8 +71,25 @@ const Post = ({ open, setOpen }) => {
   };
 
   const handleClickShare = () => {
-    console.log(imageFile, musicFile, comment, checked);
-    handleClose();
+    const data = {
+      user_id: sessionStorage.getItem("user_id"),
+      content: comment,
+      image: imageFile.name,
+      music_file_name: musicFile.name,
+      copyright: checked ? 1 : 0,
+    };
+
+    const formData = new FormData();
+    formData.append("image_file", imageFile);
+    formData.append("music_file", musicFile);
+    formData.append("post", JSON.stringify(data));
+
+    postFeedAPI(formData)
+      .then((res) => {
+        handleClose();
+        window.location.reload();
+      })
+      .catch((err) => console.error(err));
   };
 
   return (
@@ -101,6 +119,7 @@ const Post = ({ open, setOpen }) => {
             tabIndex={-1}
             startIcon={<AddPhotoAlternateIcon />}
             style={{ width: "50%", marginTop: "10px" }}
+            required
           >
             {t(`upload.image`)} {imageFile.name}
             <VisuallyHiddenInput
@@ -116,6 +135,7 @@ const Post = ({ open, setOpen }) => {
             tabIndex={-1}
             startIcon={<CloudUploadIcon />}
             style={{ width: "50%", marginTop: "10px" }}
+            required
           >
             {t(`upload.music`)} {musicFile.name}
             <VisuallyHiddenInput type="file" onChange={handleMusicFileChange} />
@@ -129,6 +149,7 @@ const Post = ({ open, setOpen }) => {
             onChange={(e) => {
               setComment(e.target.value);
             }}
+            required
           />
           <FormGroup style={{ width: "50%" }}>
             <FormControlLabel

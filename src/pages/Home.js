@@ -1,8 +1,15 @@
+import React, { useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import Menu from "../components/menu/Menu";
 import Search from "../components/Search";
 import Feed from "../components/Feed";
 
 const Home = () => {
+  const navigate = useNavigate();
+  useEffect(() => {
+    !sessionStorage.getItem("user_id") && navigate("/");
+  }, []);
+
   return (
     <div style={{ width: "100%", height: "100vh", display: "flex" }}>
       <Menu />

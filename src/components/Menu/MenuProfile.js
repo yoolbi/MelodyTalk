@@ -20,6 +20,10 @@ const MenuProfile = () => {
     lang === "ko" ? setLang("jp") : setLang("ko");
   };
 
+  const handleClickLogout = () => {
+    sessionStorage.removeItem("user_id");
+  };
+
   return (
     <div
       className="left"
@@ -73,6 +77,7 @@ const MenuProfile = () => {
           left: "20px",
           display: "flex",
         }}
+        onClick={handleClickLogout}
       >
         <Link
           to="/"

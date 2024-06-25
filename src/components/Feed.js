@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import Comment from "./modal/Comment";
 import FavoriteIcon from "@mui/icons-material/Favorite";
@@ -8,7 +8,7 @@ import AudioPlayer from "react-h5-audio-player";
 import "react-h5-audio-player/lib/styles.css";
 import Follow from "../components/modal/Follow";
 import { useTranslation } from "react-i18next";
-
+import { getPostByUserIdAPI, getAllPostsAPI } from "../api/client";
 const Feed = () => {
   const { t } = useTranslation();
   const [likeCount, setLikeCount] = useState(80);
@@ -30,9 +30,23 @@ const Feed = () => {
     navigate("/ProfileOther", { state: { name: data } });
   };
 
+  const [test, setTest] = useState([]);
+  const [posts, setPosts] = useState([]);
+  useEffect(() => {
+    getPostByUserIdAPI(sessionStorage.getItem("user_id")).then((res) => {
+      setTest(res.data);
+    });
+    getAllPostsAPI()
+      .then((res) => {
+        setPosts(res.data);
+        console.log(res);
+      })
+      .catch((err) => console.log(err));
+  }, []);
+
   return (
     <>
-      {Array.from(Array(3)).map((number, idx) => {
+      {Array.from(posts).map((number, idx) => {
         return (
           <div
             className="feed"
@@ -40,7 +54,7 @@ const Feed = () => {
             style={{ width: "80%", marginBottom: "20px", maxWidth: "800px" }}
           >
             <img
-              src="/feed_image.png"
+              src={`data:image/jpeg;base64,${posts[idx]?.image_file}`}
               alt="logo"
               style={{
                 width: "100%",
@@ -48,8 +62,8 @@ const Feed = () => {
               }}
             />
             <AudioPlayer
-              // autoPlay
-              src="/musicTest.mp3"
+              // src="/musicTest.mp3"
+              src={`data:audio/mpeg;base64,${posts[idx]?.music_file}`}
               onPlay={(e) => console.log("onPlay")}
             />
             <div
@@ -81,20 +95,17 @@ const Feed = () => {
               style={{ cursor: "pointer" }}
               onClick={handleOpenLike}
             >
-              {t(`home.like`)} {likeCount} {t(`home.like_unit`)}
+              {t(`home.like`)} {posts[idx].like_count} {t(`home.like_unit`)}
             </div>
             <div className="feed_text">
               <b
                 style={{ cursor: "pointer" }}
                 onClick={(e) => handleClickOtherUser(e.target.textContent)}
               >
-                leee{" "}
+                {posts[idx].username}{" "}
               </b>
-              오늘의 노래 <br />
+              {posts[idx].content} <br />
             </div>
-            {/* <div className="feed_comment">
-        <b>leee </b>너무 좋아요~
-      </div> */}
           </div>
         );
       })}

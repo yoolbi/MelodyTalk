@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 import Header from "../Header";
 import Post from "../modal/Post";
 import HomeIcon from "@mui/icons-material/Home";
@@ -11,7 +11,6 @@ import i18n from "../../locales/i18n";
 import LanguageIcon from "@mui/icons-material/Language";
 
 const Menu = () => {
-  const navigate = useNavigate();
   const [open, setOpen] = useState(false);
   const handleOpen = () => setOpen(true);
   const { t } = useTranslation();
@@ -23,7 +22,6 @@ const Menu = () => {
 
   const handleClickLogout = () => {
     sessionStorage.removeItem("user_id");
-    navigate("/");
   };
 
   return (

@@ -112,7 +112,6 @@ const SignUp = () => {
             />
             <TextField
               margin="normal"
-              required
               fullWidth
               name="country"
               label={t(`signup.nationality`)}
@@ -122,7 +121,6 @@ const SignUp = () => {
             />
             <TextField
               margin="normal"
-              required
               fullWidth
               name="intro"
               label={t(`signup.intro`)}
