@@ -1,7 +1,8 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Modal, Box } from "@mui/material";
 import AccountCircleOutlinedIcon from "@mui/icons-material/AccountCircleOutlined";
 import { useNavigate } from "react-router-dom";
+import { getLikesByPostAPI } from "../../api/client";
 
 const style = {
   position: "absolute",
@@ -18,23 +19,26 @@ const style = {
   flexDirection: "column",
 };
 
-const Follow = ({ openFollow, setOpenFollow, clickFollowName }) => {
+const Follow = ({
+  openFollow,
+  setOpenFollow,
+  clickFollowName,
+  selectedPost,
+}) => {
   const handleCloseComment = () => setOpenFollow(false);
   const navigate = useNavigate();
-  const [users, setUsers] = useState([
-    "leee",
-    "abc",
-    "kim",
-    "park",
-    "song",
-    "cho",
-    "seo",
-  ]);
+  const [users, setUsers] = useState([]);
 
   const handleClickOtherUser = (data) => {
     console.log(data);
     navigate("/ProfileOther", { state: { name: data } });
   };
+
+  useEffect(() => {
+    getLikesByPostAPI(selectedPost)
+      .then((res) => setUsers(res.data))
+      .catch((err) => console.log(err));
+  });
 
   return (
     <>
@@ -74,9 +78,9 @@ const Follow = ({ openFollow, setOpenFollow, clickFollowName }) => {
                       marginTop: "10px",
                       cursor: "pointer",
                     }}
-                    onClick={() => handleClickOtherUser(data)}
+                    onClick={() => handleClickOtherUser(data.username)}
                   >
-                    {data}
+                    {data.username}
                   </b>
                 </div>
               );

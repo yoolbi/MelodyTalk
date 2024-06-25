@@ -8,7 +8,7 @@ import AudioPlayer from "react-h5-audio-player";
 import "react-h5-audio-player/lib/styles.css";
 import Follow from "../components/modal/Follow";
 import { useTranslation } from "react-i18next";
-import { getPostByUserIdAPI, getAllPostsAPI } from "../api/client";
+import { getAllPostsAPI } from "../api/client";
 const Feed = () => {
   const { t } = useTranslation();
   const [likeCount, setLikeCount] = useState(80);
@@ -18,7 +18,11 @@ const Feed = () => {
   const navigate = useNavigate();
 
   const [openLike, setOpenLike] = useState(false);
-  const handleOpenLike = () => setOpenLike(true);
+  const [selectedPost, setSelectedPost] = useState("");
+  const handleOpenLike = (post_id) => {
+    setSelectedPost(post_id);
+    setOpenLike(true);
+  };
 
   const handleClickLike = () => {
     !like ? setLikeCount(likeCount + 1) : setLikeCount(likeCount - 1);
@@ -30,12 +34,8 @@ const Feed = () => {
     navigate("/ProfileOther", { state: { name: data } });
   };
 
-  const [test, setTest] = useState([]);
   const [posts, setPosts] = useState([]);
   useEffect(() => {
-    getPostByUserIdAPI(sessionStorage.getItem("user_id")).then((res) => {
-      setTest(res.data);
-    });
     getAllPostsAPI()
       .then((res) => {
         setPosts(res.data);
@@ -62,7 +62,6 @@ const Feed = () => {
               }}
             />
             <AudioPlayer
-              // src="/musicTest.mp3"
               src={`data:audio/mpeg;base64,${posts[idx]?.music_file}`}
               onPlay={(e) => console.log("onPlay")}
             />
@@ -93,7 +92,7 @@ const Feed = () => {
             <div
               className="feed_like"
               style={{ cursor: "pointer" }}
-              onClick={handleOpenLike}
+              onClick={() => handleOpenLike(posts[idx].post_id)}
             >
               {t(`home.like`)} {posts[idx].like_count} {t(`home.like_unit`)}
             </div>
@@ -114,6 +113,7 @@ const Feed = () => {
         openFollow={openLike}
         setOpenFollow={setOpenLike}
         clickFollowName={t(`home.like`)}
+        selectedPost={selectedPost}
       />
     </>
   );
