@@ -15,6 +15,7 @@ import {
   deleteLikeAPI,
   getLikesByPostAPI,
   getCommentsByPostAPI,
+  deleteFeedAPI,
 } from "../../api/client";
 
 const style = {
@@ -43,7 +44,7 @@ const ProfileFeed = ({
   selectedPostIdx,
 }) => {
   const { t } = useTranslation();
-  const handleCloseComment = () => setOpenProfileFeed(false);
+  const handleCloseProfileFeed = () => setOpenProfileFeed(false);
   const [openComment, setOpenComment] = useState(false);
   const navigate = useNavigate();
   const [likeCount, setLikeCount] = useState();
@@ -71,12 +72,6 @@ const ProfileFeed = ({
         setOpenLike(true);
       })
       .catch((err) => console.log(err));
-  };
-
-  const updateArray = (array, idx, newData, setArray) => {
-    let temp = [...array];
-    temp[idx] += newData;
-    setArray(temp);
   };
 
   const isPostLiked = (post_id) => {
@@ -110,6 +105,13 @@ const ProfileFeed = ({
     navigate("/Profile", { state: { name: data } });
   };
 
+  const handleClickDeleteFeed = (id) => {
+    deleteFeedAPI(id).then((res) => {
+      handleCloseProfileFeed();
+      window.location.reload();
+    });
+  };
+
   useEffect(() => {
     setLikeCount(post.like_count);
     fetchLikesForCurrentUser();
@@ -120,7 +122,7 @@ const ProfileFeed = ({
     <>
       <Modal
         open={openProfileFeed}
-        onClose={handleCloseComment}
+        onClose={handleCloseProfileFeed}
         aria-labelledby="modal-modal-title"
         aria-describedby="modal-modal-description"
       >
@@ -188,6 +190,7 @@ const ProfileFeed = ({
                   marginTop: "10px",
                   float: "right",
                 }}
+                onClick={() => handleClickDeleteFeed(post.post_id)}
               >
                 {t(`home.delete`)}
               </div>
