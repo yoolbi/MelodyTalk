@@ -12,6 +12,8 @@ const Profile = () => {
   const loginUser = sessionStorage.getItem("user_id");
   const [user, setUser] = useState({});
   const [posts, setPosts] = useState([]);
+  const [selectedPost, setSelectedPost] = useState({});
+  const [selectedPostIdx, setSelectedPostIdx] = useState();
   const { t } = useTranslation();
 
   const { state } = useLocation();
@@ -20,7 +22,11 @@ const Profile = () => {
   const [clickFollowName, setClickFollowName] = useState("");
 
   const [openProfileFeed, setOpenProfileFeed] = useState(false);
-  const handleOpenProfileFeed = () => setOpenProfileFeed(true);
+  const handleOpenProfileFeed = (post, idx) => {
+    setSelectedPost(post);
+    setSelectedPostIdx(idx);
+    setOpenProfileFeed(true);
+  };
 
   const [followCount, setFollowCount] = useState(10);
   const [followingCount, setFollowingCount] = useState(10);
@@ -39,26 +45,21 @@ const Profile = () => {
     }
     handleOpenFollow();
   };
-  console.log(state);
+
+  const getData = (id) => {
+    getUserByUserIdAPI(id).then((res) => {
+      setUser(res.data);
+      getPostByUserIdAPI(res.data.user_id).then((res) => {
+        setPosts(res.data);
+      });
+    });
+  };
+
   useState(() => {
     if (!state || state.name === loginUser) {
-      getUserByUserIdAPI(loginUser).then((res) => {
-        console.log(res.data);
-        setUser(res.data);
-        getPostByUserIdAPI(res.data.user_id).then((res) => {
-          console.log(res.data);
-          setPosts(res.data);
-        });
-      });
+      getData(loginUser);
     } else if (state.name !== loginUser) {
-      getUserByUserIdAPI(state.name).then((res) => {
-        console.log(res.data);
-        setUser(res.data);
-        getPostByUserIdAPI(res.data.user_id).then((res) => {
-          console.log(res.data);
-          setPosts(res.data);
-        });
-      });
+      getData(state.name);
     }
   }, []);
 
@@ -158,7 +159,7 @@ const Profile = () => {
                     objectFit: "cover",
                     cursor: "pointer",
                   }}
-                  onClick={handleOpenProfileFeed}
+                  onClick={() => handleOpenProfileFeed(post, idx)}
                 />
               </ImageListItem>
             ))}
@@ -173,7 +174,9 @@ const Profile = () => {
       <ProfileFeed
         openProfileFeed={openProfileFeed}
         setOpenProfileFeed={setOpenProfileFeed}
-        name={state?.name || user?.username}
+        name={user?.user_id}
+        post={selectedPost}
+        selectedPostIdx={selectedPostIdx}
       />
     </div>
   );
