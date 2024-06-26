@@ -6,7 +6,12 @@ import { Button, ImageList, ImageListItem } from "@mui/material";
 import Follow from "../components/modal/Follow";
 import ProfileFeed from "../components/modal/ProfileFeed";
 import { useTranslation } from "react-i18next";
-import { getPostByUserIdAPI, getUserByUserIdAPI } from "../api/client";
+import {
+  getPostByUserIdAPI,
+  getUserByUserIdAPI,
+  getFollowersAPI,
+  getFollowingsAPI,
+} from "../api/client";
 
 const Profile = () => {
   const loginUser = sessionStorage.getItem("user_id");
@@ -38,19 +43,39 @@ const Profile = () => {
   };
 
   const handleClickFollowNum = (name) => {
-    if (name === "follow") {
+    if (name === "follower") {
       setClickFollowName(t(`profile.follower`));
+      const object = follower.map((obj) => ({
+        user_id: obj.from_user_id,
+        username: obj.from_user_username,
+      }));
+      setFollowModalData(object);
     } else if (name === "following") {
       setClickFollowName(t(`profile.following`));
+      const object = following.map((obj) => ({
+        user_id: obj.to_user_id,
+        username: obj.to_user_username,
+      }));
+      setFollowModalData(object);
     }
     handleOpenFollow();
   };
+
+  const [follower, setFollower] = useState([]);
+  const [following, setFollowing] = useState([]);
+  const [followModalData, setFollowModalData] = useState([]);
 
   const getData = (id) => {
     getUserByUserIdAPI(id).then((res) => {
       setUser(res.data);
       getPostByUserIdAPI(res.data.user_id).then((res) => {
         setPosts(res.data);
+      });
+      getFollowersAPI(id).then((res) => {
+        setFollower(res.data);
+      });
+      getFollowingsAPI(id).then((res) => {
+        setFollowing(res.data);
       });
     });
   };
@@ -127,9 +152,9 @@ const Profile = () => {
                 {t(`profile.follower`)}{" "}
                 <b
                   style={{ cursor: "pointer" }}
-                  onClick={() => handleClickFollowNum("follow")}
+                  onClick={() => handleClickFollowNum("follower")}
                 >
-                  {followCount}
+                  {follower.length}
                 </b>
               </div>
               <div>
@@ -138,7 +163,7 @@ const Profile = () => {
                   style={{ cursor: "pointer" }}
                   onClick={() => handleClickFollowNum("following")}
                 >
-                  {followingCount}
+                  {following.length}
                 </b>
               </div>
             </div>
@@ -170,6 +195,7 @@ const Profile = () => {
         openFollow={openFollow}
         setOpenFollow={setOpenFollow}
         clickFollowName={clickFollowName}
+        users={followModalData}
       />
       <ProfileFeed
         openProfileFeed={openProfileFeed}

@@ -167,3 +167,53 @@ export const postCommentAPI = (like) => {
     .then((res) => res)
     .catch((err) => err);
 };
+
+//follow
+export const getFollowersAPI = (id) => {
+  return axios({
+    method: "get",
+    url: "/follows/getFollowers",
+    params: {
+      to_user_id: id,
+    },
+  })
+    .then((res) => res)
+    .catch((err) => err);
+};
+
+export const getFollowingsAPI = (id) => {
+  return axios({
+    method: "get",
+    url: "/follows/getFollowings",
+    params: {
+      from_user_id: id,
+    },
+  })
+    .then((res) => res)
+    .catch((err) => err);
+};
+
+export const postFollowAPI = (follow) => {
+  return axios({
+    method: "post",
+    url: "/follows/insert",
+    data: {
+      from_user_id: follow.from_user_id,
+      to_user_id: follow.to_user_id,
+    },
+  })
+    .then((res) => res)
+    .catch((err) => err);
+};
+
+export const deleteFollowAPI = (id) => {
+  return axios({
+    method: "delete",
+    url: "/posts/delete",
+    params: {
+      follow_id: id,
+    },
+  })
+    .then((res) => res)
+    .catch((err) => err);
+};
