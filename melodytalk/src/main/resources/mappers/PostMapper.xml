@@ -20,6 +20,7 @@
 			    (SELECT USERNAME FROM USERS u WHERE p.USER_ID = u.USER_ID) AS USERNAME
 			FROM 
 			    POST p
+			ORDER BY CREATEDATE DESC
 		]]>
 	</select>
 	
@@ -40,6 +41,7 @@
 			FROM 
 			    POST p
 			WHERE USER_ID = #{userID}
+			ORDER BY CREATEDATE DESC
 		]]>
 	</select>
 	
