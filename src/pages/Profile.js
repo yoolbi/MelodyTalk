@@ -98,6 +98,10 @@ const Profile = () => {
     });
   };
 
+  const handleClickMessage = () => {
+    navigate("/Message");
+  };
+
   useEffect(() => {
     !loginUser && navigate("/");
   });
@@ -161,7 +165,11 @@ const Profile = () => {
                 ))}
 
               {state && (
-                <Button variant="outlined" size="small">
+                <Button
+                  variant="outlined"
+                  size="small"
+                  onClick={handleClickMessage}
+                >
                   {t(`profile.message`)}
                 </Button>
               )}
