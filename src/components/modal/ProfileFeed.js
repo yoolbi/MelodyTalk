@@ -78,15 +78,15 @@ const ProfileFeed = ({
     return likeData.some((like) => like.post_id === post_id);
   };
 
-  const handleClickLike = (idx, post_id) => {
+  const handleClickLike = (idx, post_id, like_count) => {
     let body = { user_id: sessionStorage.getItem("user_id"), post_id: post_id };
     if (!isPostLiked(post_id)) {
-      setLikeCount(likeCount + 1);
+      setLikeCount(like_count + 1);
       postLikeAPI(body).then((res) => {
         fetchLikesForCurrentUser();
       });
     } else {
-      setLikeCount(likeCount - 1);
+      setLikeCount(like_count - 1);
       deleteLikeAPI(body).then((res) => {
         fetchLikesForCurrentUser();
       });
@@ -151,12 +151,24 @@ const ProfileFeed = ({
               {!isLiked ? (
                 <FavoriteBorderIcon
                   style={{ cursor: "pointer" }}
-                  onClick={() => handleClickLike(selectedPostIdx, post.post_id)}
+                  onClick={() =>
+                    handleClickLike(
+                      selectedPostIdx,
+                      post.post_id,
+                      likeCount ? likeCount : post.like_count
+                    )
+                  }
                 />
               ) : (
                 <FavoriteIcon
                   style={{ cursor: "pointer" }}
-                  onClick={() => handleClickLike(selectedPostIdx, post.post_id)}
+                  onClick={() =>
+                    handleClickLike(
+                      selectedPostIdx,
+                      post.post_id,
+                      likeCount ? likeCount : post.like_count
+                    )
+                  }
                 />
               )}
               <MessageOutlinedIcon

@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useLocation } from "react-router-dom";
 import MenuProfile from "../components/menu/MenuProfile";
 import AccountCircleIcon from "@mui/icons-material/AccountCircle";
@@ -11,6 +11,8 @@ import {
   getUserByUserIdAPI,
   getFollowersAPI,
   getFollowingsAPI,
+  postFollowAPI,
+  deleteFollowAPI,
 } from "../api/client";
 
 const Profile = () => {
@@ -33,12 +35,21 @@ const Profile = () => {
     setOpenProfileFeed(true);
   };
 
-  const [followCount, setFollowCount] = useState(10);
-  const [followingCount, setFollowingCount] = useState(10);
+  const [followCount, setFollowCount] = useState();
   const [follow, setFollow] = useState(false);
-
+  const [followId, setFollowId] = useState("");
   const handleClickAddFollow = () => {
-    !follow ? setFollowCount(followCount + 1) : setFollowCount(followCount - 1);
+    if (follow) {
+      setFollowCount(followCount - 1);
+      deleteFollowAPI(followId).then((res) => {});
+    } else {
+      setFollowCount(followCount + 1);
+      postFollowAPI({ from_user_id: loginUser, to_user_id: user.user_id }).then(
+        (res) => {
+          console.log(res);
+        }
+      );
+    }
     setFollow(!follow);
   };
 
@@ -72,7 +83,13 @@ const Profile = () => {
         setPosts(res.data);
       });
       getFollowersAPI(id).then((res) => {
-        setFollower(res.data);
+        const data = res.data;
+        setFollower(data);
+        setFollowCount(data.length);
+        setFollow(data.some((obj) => obj.from_user_id === loginUser));
+        setFollowId(
+          data.find((obj) => obj.from_user_id === loginUser)?.follow_id
+        );
       });
       getFollowingsAPI(id).then((res) => {
         setFollowing(res.data);
@@ -80,13 +97,13 @@ const Profile = () => {
     });
   };
 
-  useState(() => {
+  useEffect(() => {
     if (!state || state.name === loginUser) {
       getData(loginUser);
     } else if (state.name !== loginUser) {
       getData(state.name);
     }
-  }, []);
+  }, [follow]);
 
   return (
     <div style={{ width: "100%", height: "100vh", display: "flex" }}>
@@ -154,7 +171,7 @@ const Profile = () => {
                   style={{ cursor: "pointer" }}
                   onClick={() => handleClickFollowNum("follower")}
                 >
-                  {follower.length}
+                  {followCount}
                 </b>
               </div>
               <div>

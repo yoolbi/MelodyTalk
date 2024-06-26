@@ -209,7 +209,7 @@ export const postFollowAPI = (follow) => {
 export const deleteFollowAPI = (id) => {
   return axios({
     method: "delete",
-    url: "/posts/delete",
+    url: "/follows/delete",
     params: {
       follow_id: id,
     },
