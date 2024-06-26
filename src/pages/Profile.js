@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { useLocation } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import MenuProfile from "../components/menu/MenuProfile";
 import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 import { Button, ImageList, ImageListItem } from "@mui/material";
@@ -17,6 +17,7 @@ import {
 
 const Profile = () => {
   const loginUser = sessionStorage.getItem("user_id");
+  const navigate = useNavigate();
   const [user, setUser] = useState({});
   const [posts, setPosts] = useState([]);
   const [selectedPost, setSelectedPost] = useState({});
@@ -96,6 +97,10 @@ const Profile = () => {
       });
     });
   };
+
+  useEffect(() => {
+    !loginUser && navigate("/");
+  });
 
   useEffect(() => {
     if (!state || state.name === loginUser) {
