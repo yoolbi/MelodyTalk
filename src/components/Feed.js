@@ -13,24 +13,30 @@ import {
   getLikesByUserAPI,
   postLikeAPI,
   deleteLikeAPI,
+  getLikesByPostAPI,
 } from "../api/client";
 
 const Feed = () => {
   const { t } = useTranslation();
-  const [likeCounts, setLikeCounts] = useState([]);
-  const [likeData, setLikeData] = useState([]);
-  const [openComment, setOpenComment] = useState(false);
-  const handleOpenComment = () => setOpenComment(true);
   const navigate = useNavigate();
 
+  const [likeCounts, setLikeCounts] = useState([]);
+  const [likeData, setLikeData] = useState([]);
   const [openLike, setOpenLike] = useState(false);
-  const [selectedPost, setSelectedPost] = useState("");
+  const [likeUsers, setLikeUsers] = useState([]);
+
+  const [openComment, setOpenComment] = useState(false);
+  const handleOpenComment = () => setOpenComment(true);
 
   const [posts, setPosts] = useState([]);
 
   const handleOpenLike = (post_id) => {
-    setSelectedPost(post_id);
-    setOpenLike(true);
+    getLikesByPostAPI(post_id)
+      .then((res) => {
+        setLikeUsers(res.data);
+        setOpenLike(true);
+      })
+      .catch((err) => console.log(err));
   };
 
   const updateArray = (array, idx, newData, setArray) => {
@@ -58,17 +64,17 @@ const Feed = () => {
     }
   };
 
-  const handleClickOtherUser = (data) => {
-    console.log(data);
-    navigate("/ProfileOther", { state: { name: data } });
-  };
-
   const fetchLikesForCurrentUser = () => {
     getLikesByUserAPI(sessionStorage.getItem("user_id"))
       .then((res) => {
         setLikeData(res.data);
       })
       .catch((err) => console.log(err));
+  };
+
+  const handleClickOtherUser = (data) => {
+    console.log(data);
+    navigate("/ProfileOther", { state: { name: data } });
   };
 
   useEffect(() => {
@@ -151,7 +157,7 @@ const Feed = () => {
         openFollow={openLike}
         setOpenFollow={setOpenLike}
         clickFollowName={t(`home.like`)}
-        selectedPost={selectedPost}
+        users={likeUsers}
       />
     </>
   );

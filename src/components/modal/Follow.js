@@ -1,8 +1,6 @@
-import { useState, useEffect } from "react";
 import { Modal, Box } from "@mui/material";
 import AccountCircleOutlinedIcon from "@mui/icons-material/AccountCircleOutlined";
 import { useNavigate } from "react-router-dom";
-import { getLikesByPostAPI } from "../../api/client";
 
 const style = {
   position: "absolute",
@@ -19,26 +17,14 @@ const style = {
   flexDirection: "column",
 };
 
-const Follow = ({
-  openFollow,
-  setOpenFollow,
-  clickFollowName,
-  selectedPost,
-}) => {
+const Follow = ({ openFollow, setOpenFollow, clickFollowName, users }) => {
   const handleCloseComment = () => setOpenFollow(false);
   const navigate = useNavigate();
-  const [users, setUsers] = useState([]);
 
   const handleClickOtherUser = (data) => {
     console.log(data);
     navigate("/ProfileOther", { state: { name: data } });
   };
-
-  useEffect(() => {
-    getLikesByPostAPI(selectedPost)
-      .then((res) => setUsers(res.data))
-      .catch((err) => console.log(err));
-  });
 
   return (
     <>
@@ -61,7 +47,7 @@ const Follow = ({
             <h3>{clickFollowName}</h3>
           </div>
           <div style={{ overflowY: "auto" }}>
-            {users.map((data, idx) => {
+            {users?.map((data, idx) => {
               return (
                 <div key={idx} style={{ display: "flex", marginTop: "5px" }}>
                   <AccountCircleOutlinedIcon
