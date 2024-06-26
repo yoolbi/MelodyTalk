@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import Comment from "./modal/Comment";
+import { Backdrop, CircularProgress } from "@mui/material";
 import FavoriteIcon from "@mui/icons-material/Favorite";
 import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
 import MessageOutlinedIcon from "@mui/icons-material/MessageOutlined";
@@ -15,11 +16,15 @@ import {
   deleteLikeAPI,
   getLikesByPostAPI,
   getCommentsByPostAPI,
+  getSearchPostAPI,
 } from "../api/client";
 
-const Feed = () => {
+const Feed = (search) => {
   const { t } = useTranslation();
   const navigate = useNavigate();
+  const [openBackdrop, setOpenBackdrop] = useState(false);
+  const handleCloseBackdrop = () => setOpenBackdrop(false);
+  const handleOpenBackdrop = () => setOpenBackdrop(true);
 
   const [posts, setPosts] = useState([]);
   const [selectedPostId, setSelectedPostId] = useState("");
@@ -89,10 +94,26 @@ const Feed = () => {
   };
 
   useEffect(() => {
+    if (search.search !== null) {
+      handleOpenBackdrop();
+      getSearchPostAPI(search.search)
+        .then((res) => {
+          setPosts(res.data);
+          setLikeCounts(res.data.map((post) => post.like_count));
+          handleCloseBackdrop();
+        })
+        .catch((err) => console.log(err));
+    }
+    fetchLikesForCurrentUser();
+  }, [search]);
+
+  useEffect(() => {
+    handleOpenBackdrop();
     getAllPostsAPI()
       .then((res) => {
         setPosts(res.data);
         setLikeCounts(res.data.map((post) => post.like_count));
+        handleCloseBackdrop();
       })
       .catch((err) => console.log(err));
     fetchLikesForCurrentUser();
@@ -176,6 +197,13 @@ const Feed = () => {
         clickFollowName={t(`home.like`)}
         users={likeUsers}
       />
+      <Backdrop
+        sx={{ color: "#fff", zIndex: (theme) => theme.zIndex.drawer + 1 }}
+        open={openBackdrop}
+        onClick={handleCloseBackdrop}
+      >
+        <CircularProgress color="inherit" />
+      </Backdrop>
     </>
   );
 };

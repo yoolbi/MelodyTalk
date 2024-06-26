@@ -1,10 +1,11 @@
-import React, { useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import Menu from "../components/menu/Menu";
 import Search from "../components/Search";
 import Feed from "../components/Feed";
 
 const Home = () => {
+  const [search, setSearch] = useState(null);
   const navigate = useNavigate();
   useEffect(() => {
     !sessionStorage.getItem("user_id") && navigate("/");
@@ -23,7 +24,7 @@ const Home = () => {
           alignItems: "center",
         }}
       >
-        <Search />
+        <Search setSearch={setSearch} />
         <div
           className="feeds"
           style={{
@@ -35,7 +36,7 @@ const Home = () => {
             overflow: "auto",
           }}
         >
-          <Feed />
+          <Feed search={search} />
         </div>
       </div>
     </div>

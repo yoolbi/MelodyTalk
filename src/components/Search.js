@@ -3,17 +3,17 @@ import { TextField, InputAdornment } from "@mui/material";
 import SearchIcon from "@mui/icons-material/Search";
 import { useTranslation } from "react-i18next";
 
-const Search = () => {
+const Search = ({ setSearch }) => {
   const { t } = useTranslation();
-  const [search, setSearch] = useState("");
+  const [searchTemp, setSearchTemp] = useState("");
 
   const handleChangeSearch = (e) => {
-    setSearch(e.target.value);
+    setSearchTemp(e.target.value);
   };
 
   const handleKeyPress = (e) => {
     if (e.key === "Enter") {
-      console.log(search);
+      setSearch(searchTemp);
     }
   };
   return (

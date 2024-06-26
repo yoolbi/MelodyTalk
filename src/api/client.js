@@ -70,6 +70,18 @@ export const getPostByUserIdAPI = (id) => {
     .catch((err) => err);
 };
 
+export const getSearchPostAPI = (searchString) => {
+  return axios({
+    method: "get",
+    url: "/posts/search",
+    params: {
+      searchString: searchString,
+    },
+  })
+    .then((res) => res)
+    .catch((err) => err);
+};
+
 export const postFeedAPI = (formData) => {
   return axios.post("/posts/insert", formData, {
     headers: {
