@@ -10,4 +10,5 @@ public class CommentDTO {
 	private String post_id;
 	private String comment_content;
 	private Date createdate;
+	private String username;
 }

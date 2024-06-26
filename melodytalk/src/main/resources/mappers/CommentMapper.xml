@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.global.react.mapper.CommentMapper">
+	
+	<select id="getCommentsByPost" resultType="com.global.react.domain.CommentDTO">
+		<![CDATA[
+			SELECT
+				c.COMMENT_ID
+				,c.USER_ID
+				,c.POST_ID
+				,c.COMMENT_CONTENT
+				,(SELECT USERNAME FROM USERS u WHERE c.USER_ID = u.USER_ID) AS USERNAME
+			FROM COMMENTS c
+			WHERE POST_ID = #{post_id}
+			ORDER BY CREATEDATE
+		]]>
+	</select>
+	
+	<insert id="insertComment">
+		INSERT INTO COMMENTS (
+			COMMENT_ID
+			,USER_ID
+			,POST_ID
+			,COMMENT_CONTENT
+		) values (
+			#{comment_id}
+			,#{user_id}
+			,#{post_id}
+			,#{comment_content}
+		)
+	</insert>
+	
+	<delete id="deleteComment">
+	    DELETE FROM COMMENTS WHERE COMMENT_ID = #{comment_id}
+	</delete>
+
+</mapper>
