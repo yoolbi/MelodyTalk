@@ -28,6 +28,11 @@ public class PostServiceImpl implements PostService {
 		return postMapper.getPostsByUserID(user_id);
 	}
 
+	@Override
+	public List<PostVO> searchPosts(String searchString) {
+		return postMapper.searchPosts(searchString);
+	}
+	
 	@Transactional
 	@Override
 	public void insertPost(PostVO postVO) {

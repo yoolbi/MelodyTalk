@@ -40,6 +40,11 @@ public class PostController {
 		 return postService.getPostsByUserID(user_id);
 	}
 	
+	@GetMapping("/search")
+	public Object searchPosts(@RequestParam("searchString") String searchString) {
+	    return postService.searchPosts(searchString);
+	}
+	
 	@PostMapping("/insert")
 	public ResponseEntity<String> insertPost(
 	        @RequestParam("image_file") MultipartFile imageFile,

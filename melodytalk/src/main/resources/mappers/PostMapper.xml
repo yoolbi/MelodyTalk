@@ -45,6 +45,29 @@
 		]]>
 	</select>
 	
+	<select id="searchPosts" resultType="com.global.react.domain.PostVO">
+	    <![CDATA[
+	        SELECT 
+	            p.POST_ID,
+	            p.USER_ID,
+	            p.CONTENT,
+	            p.IMAGE,
+	            p.MUSIC_FILE_NAME,
+	            p.COPYRIGHT,
+	            p.CREATEDATE,
+	            p.IMAGE_FILE,
+	            p.MUSIC_FILE,
+	            (SELECT COUNT(*) FROM LIKES l WHERE l.POST_ID = p.POST_ID) AS LIKE_COUNT,
+	            (SELECT USERNAME FROM USERS u WHERE p.USER_ID = u.USER_ID) AS USERNAME
+	        FROM 
+	            POST p
+	        WHERE 
+	            p.CONTENT LIKE '%' || #{searchString} || '%'
+	            OR (SELECT USERNAME FROM USERS u WHERE p.USER_ID = u.USER_ID) LIKE '%' || #{searchString} || '%'
+	        ORDER BY CREATEDATE DESC
+	    ]]>
+	</select>
+	
 	<insert id="insertPost">
 	    INSERT INTO POST (
 	        POST_ID,
