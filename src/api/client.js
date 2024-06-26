@@ -140,3 +140,30 @@ export const deleteLikeAPI = (like) => {
     .then((res) => res)
     .catch((err) => err);
 };
+
+//comment
+export const getCommentsByPostAPI = (id) => {
+  return axios({
+    method: "get",
+    url: "/comments/get",
+    params: {
+      post_id: id,
+    },
+  })
+    .then((res) => res)
+    .catch((err) => err);
+};
+
+export const postCommentAPI = (like) => {
+  return axios({
+    method: "post",
+    url: "/comments/insert",
+    data: {
+      user_id: like.user_id,
+      post_id: like.post_id,
+      comment_content: like.comment_content,
+    },
+  })
+    .then((res) => res)
+    .catch((err) => err);
+};

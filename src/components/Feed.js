@@ -14,11 +14,15 @@ import {
   postLikeAPI,
   deleteLikeAPI,
   getLikesByPostAPI,
+  getCommentsByPostAPI,
 } from "../api/client";
 
 const Feed = () => {
   const { t } = useTranslation();
   const navigate = useNavigate();
+
+  const [posts, setPosts] = useState([]);
+  const [selectedPostId, setSelectedPostId] = useState("");
 
   const [likeCounts, setLikeCounts] = useState([]);
   const [likeData, setLikeData] = useState([]);
@@ -26,11 +30,19 @@ const Feed = () => {
   const [likeUsers, setLikeUsers] = useState([]);
 
   const [openComment, setOpenComment] = useState(false);
-  const handleOpenComment = () => setOpenComment(true);
-
-  const [posts, setPosts] = useState([]);
+  const [comments, setComments] = useState([]);
+  const handleOpenComment = (id) => {
+    setSelectedPostId(id);
+    getCommentsByPostAPI(id)
+      .then((res) => {
+        setComments(res.data);
+        setOpenComment(true);
+      })
+      .catch((err) => console.log(err));
+  };
 
   const handleOpenLike = (post_id) => {
+    setSelectedPostId(post_id);
     getLikesByPostAPI(post_id)
       .then((res) => {
         setLikeUsers(res.data);
@@ -130,13 +142,13 @@ const Feed = () => {
               )}
               <MessageOutlinedIcon
                 style={{ cursor: "pointer" }}
-                onClick={handleOpenComment}
+                onClick={() => handleOpenComment(post.post_id)}
               />
             </div>
             <div
               className="feed_like"
               style={{ cursor: "pointer" }}
-              onClick={() => handleOpenLike(posts[idx].post_id)}
+              onClick={() => handleOpenLike(post.post_id)}
             >
               {t(`home.like`)} {likeCounts[idx]} {t(`home.like_unit`)}
             </div>
@@ -152,7 +164,13 @@ const Feed = () => {
           </div>
         );
       })}
-      <Comment openComment={openComment} setOpenComment={setOpenComment} />
+      <Comment
+        openComment={openComment}
+        setOpenComment={setOpenComment}
+        comments={comments}
+        setComments={setComments}
+        post_id={selectedPostId}
+      />
       <Follow
         openFollow={openLike}
         setOpenFollow={setOpenLike}

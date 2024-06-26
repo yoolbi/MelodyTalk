@@ -1,7 +1,8 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Modal, Box, TextField } from "@mui/material";
 import { useNavigate } from "react-router-dom";
 import { useTranslation } from "react-i18next";
+import { getUserByUserIdAPI, postCommentAPI } from "../../api/client";
 
 const style = {
   position: "absolute",
@@ -20,24 +21,42 @@ const style = {
   alignItems: "center",
 };
 
-const Comment = ({ openComment, setOpenComment }) => {
+const Comment = ({
+  openComment,
+  setOpenComment,
+  comments,
+  setComments,
+  post_id,
+}) => {
   const { t } = useTranslation();
-
+  const [currentUser, setCurrentUser] = useState("");
   const handleCloseComment = () => setOpenComment(false);
   const [newComment, setNewComment] = useState("");
-  const [comments, setComments] = useState([
-    ["kim", "좋아요"],
-    ["leee", "굿"],
-  ]);
 
   const handleChangeComment = (e) => {
     setNewComment(e.target.value);
   };
 
   const handleKeyPress = (e) => {
+    let postNewComment = {
+      user_id: currentUser.user_id,
+      post_id: post_id,
+      comment_content: newComment,
+    };
     if (e.key === "Enter") {
-      setComments([...comments, ["yoolbi", newComment]]);
-      setNewComment("");
+      postCommentAPI(postNewComment)
+        .then((res) => {
+          console.log(res);
+          let temp = [...comments];
+          temp.push({
+            username: currentUser.username,
+            comment_content: newComment,
+          });
+
+          setComments(temp);
+          setNewComment("");
+        })
+        .catch((err) => console.log(err));
     }
   };
 
@@ -46,6 +65,12 @@ const Comment = ({ openComment, setOpenComment }) => {
     console.log(data);
     navigate("/ProfileOther", { state: { name: data } });
   };
+
+  useEffect(() => {
+    getUserByUserIdAPI(sessionStorage.getItem("user_id")).then((res) => {
+      setCurrentUser(res.data);
+    });
+  }, []);
 
   return (
     <div>
@@ -75,9 +100,9 @@ const Comment = ({ openComment, setOpenComment }) => {
                     style={{ cursor: "pointer" }}
                     onClick={(e) => handleClickOtherUser(e.target.textContent)}
                   >
-                    {data[0]}
+                    {data.username}
                   </b>{" "}
-                  {data[1]}
+                  {data.comment_content}
                 </div>
               );
             })}
