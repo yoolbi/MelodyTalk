@@ -85,8 +85,7 @@ const Feed = () => {
   };
 
   const handleClickOtherUser = (data) => {
-    console.log(data);
-    navigate("/ProfileOther", { state: { name: data } });
+    navigate("/Profile", { state: { name: data } });
   };
 
   useEffect(() => {
@@ -155,7 +154,7 @@ const Feed = () => {
             <div className="feed_text">
               <b
                 style={{ cursor: "pointer" }}
-                onClick={(e) => handleClickOtherUser(e.target.textContent)}
+                onClick={() => handleClickOtherUser(post.user_id)}
               >
                 {posts[idx].username}{" "}
               </b>

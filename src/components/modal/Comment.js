@@ -46,7 +46,6 @@ const Comment = ({
     if (e.key === "Enter") {
       postCommentAPI(postNewComment)
         .then((res) => {
-          console.log(res);
           let temp = [...comments];
           temp.push({
             username: currentUser.username,
@@ -63,7 +62,7 @@ const Comment = ({
   const navigate = useNavigate();
   const handleClickOtherUser = (data) => {
     console.log(data);
-    navigate("/ProfileOther", { state: { name: data } });
+    navigate("/Profile", { state: { name: data } });
   };
 
   useEffect(() => {
@@ -93,12 +92,12 @@ const Comment = ({
             <h3>{t(`home.comment`)}</h3>
           </div>
           <div style={{ width: "90%", height: "80%", overflow: "auto" }}>
-            {comments.map((data, idx) => {
+            {comments?.map((data, idx) => {
               return (
                 <div key={idx} style={{ marginBottom: "5px" }}>
                   <b
                     style={{ cursor: "pointer" }}
-                    onClick={(e) => handleClickOtherUser(e.target.textContent)}
+                    onClick={() => handleClickOtherUser(data.user_id)}
                   >
                     {data.username}
                   </b>{" "}

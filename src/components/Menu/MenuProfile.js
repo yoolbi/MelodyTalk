@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import Header from "../Header";
 import Post from "../modal/Post";
 import HomeOutlinedIcon from "@mui/icons-material/HomeOutlined";
@@ -11,6 +11,7 @@ import i18n from "../../locales/i18n";
 import LanguageIcon from "@mui/icons-material/Language";
 
 const MenuProfile = () => {
+  const navigate = useNavigate();
   const [open, setOpen] = useState(false);
   const handleOpen = () => setOpen(true);
   const { t } = useTranslation();
@@ -24,6 +25,10 @@ const MenuProfile = () => {
     sessionStorage.removeItem("user_id");
   };
 
+  const handleClickProfile = () => {
+    navigate("/Profile");
+    window.location.reload();
+  };
   return (
     <div
       className="left"
@@ -60,7 +65,11 @@ const MenuProfile = () => {
             <h3>{t(`menu.post`)}</h3>
           </div>
         </div>
-        <Link to="/Profile" style={{ textDecoration: "none", color: "black" }}>
+        <Link
+          to="/Profile"
+          style={{ textDecoration: "none", color: "black" }}
+          onClick={handleClickProfile}
+        >
           <div style={{ display: "flex", marginBottom: "20px" }}>
             <AccountCircleIcon style={{ width: "50", height: "50" }} />
             <div style={{ margin: "0px 20px" }}>

@@ -19,8 +19,8 @@ const style = {
   top: "50%",
   left: "50%",
   transform: "translate(-50%, -50%)",
-  width: "50%",
-  height: "50%",
+  width: "60%",
+  height: "60%",
   bgcolor: "background.paper",
   boxShadow: 24,
   p: 4,
@@ -29,6 +29,7 @@ const style = {
   flexDirection: "column",
   justifyContent: "center",
   alignItems: "center",
+  overflow: "auto",
 };
 
 const VisuallyHiddenInput = styled("input")({
@@ -138,7 +139,11 @@ const Post = ({ open, setOpen }) => {
             required
           >
             {t(`upload.music`)} {musicFile.name}
-            <VisuallyHiddenInput type="file" onChange={handleMusicFileChange} />
+            <VisuallyHiddenInput
+              type="file"
+              accept="audio/mpeg"
+              onChange={handleMusicFileChange}
+            />
           </Button>
           <TextField
             id="outlined-textarea"

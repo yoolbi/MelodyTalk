@@ -1,63 +1,20 @@
 import { useState } from "react";
+import { useLocation } from "react-router-dom";
 import MenuProfile from "../components/menu/MenuProfile";
 import AccountCircleIcon from "@mui/icons-material/AccountCircle";
-import { ImageList, ImageListItem } from "@mui/material";
+import { Button, ImageList, ImageListItem } from "@mui/material";
 import Follow from "../components/modal/Follow";
 import ProfileFeed from "../components/modal/ProfileFeed";
 import { useTranslation } from "react-i18next";
+import { getPostByUserIdAPI, getUserByUserIdAPI } from "../api/client";
 
 const Profile = () => {
+  const loginUser = sessionStorage.getItem("user_id");
+  const [user, setUser] = useState({});
+  const [posts, setPosts] = useState([]);
   const { t } = useTranslation();
-  const itemData = [
-    {
-      img: "https://images.unsplash.com/photo-1551963831-b3b1ca40c98e",
-      title: "Breakfast",
-    },
-    {
-      img: "https://images.unsplash.com/photo-1551782450-a2132b4ba21d",
-      title: "Burger",
-    },
-    {
-      img: "https://images.unsplash.com/photo-1522770179533-24471fcdba45",
-      title: "Camera",
-    },
-    {
-      img: "https://images.unsplash.com/photo-1444418776041-9c7e33cc5a9c",
-      title: "Coffee",
-    },
-    {
-      img: "https://images.unsplash.com/photo-1533827432537-70133748f5c8",
-      title: "Hats",
-    },
-    {
-      img: "https://images.unsplash.com/photo-1558642452-9d2a7deb7f62",
-      title: "Honey",
-    },
-    {
-      img: "https://images.unsplash.com/photo-1516802273409-68526ee1bdd6",
-      title: "Basketball",
-    },
-    {
-      img: "https://images.unsplash.com/photo-1518756131217-31eb79b20e8f",
-      title: "Fern",
-    },
-    {
-      img: "https://images.unsplash.com/photo-1597645587822-e99fa5d45d25",
-      title: "Mushrooms",
-    },
-    {
-      img: "https://images.unsplash.com/photo-1567306301408-9b74779a11af",
-      title: "Tomato basil",
-    },
-    {
-      img: "https://images.unsplash.com/photo-1471357674240-e1a485acb3e1",
-      title: "Sea star",
-    },
-    {
-      img: "https://images.unsplash.com/photo-1589118949245-7d38baf380d6",
-      title: "Bike",
-    },
-  ];
+
+  const { state } = useLocation();
   const [openFollow, setOpenFollow] = useState(false);
   const handleOpenFollow = () => setOpenFollow(true);
   const [clickFollowName, setClickFollowName] = useState("");
@@ -67,6 +24,12 @@ const Profile = () => {
 
   const [followCount, setFollowCount] = useState(10);
   const [followingCount, setFollowingCount] = useState(10);
+  const [follow, setFollow] = useState(false);
+
+  const handleClickAddFollow = () => {
+    !follow ? setFollowCount(followCount + 1) : setFollowCount(followCount - 1);
+    setFollow(!follow);
+  };
 
   const handleClickFollowNum = (name) => {
     if (name === "follow") {
@@ -76,6 +39,28 @@ const Profile = () => {
     }
     handleOpenFollow();
   };
+  console.log(state);
+  useState(() => {
+    if (!state || state.name === loginUser) {
+      getUserByUserIdAPI(loginUser).then((res) => {
+        console.log(res.data);
+        setUser(res.data);
+        getPostByUserIdAPI(res.data.user_id).then((res) => {
+          console.log(res.data);
+          setPosts(res.data);
+        });
+      });
+    } else if (state.name !== loginUser) {
+      getUserByUserIdAPI(state.name).then((res) => {
+        console.log(res.data);
+        setUser(res.data);
+        getPostByUserIdAPI(res.data.user_id).then((res) => {
+          console.log(res.data);
+          setPosts(res.data);
+        });
+      });
+    }
+  }, []);
 
   return (
     <div style={{ width: "100%", height: "100vh", display: "flex" }}>
@@ -104,10 +89,38 @@ const Profile = () => {
             style={{ width: "80px", height: "80px", marginRight: "20px" }}
           />
           <div>
-            <b>yoolbi</b>
+            <div>
+              <b>{user?.username}</b>
+              {state &&
+                (!follow ? (
+                  <Button
+                    variant="contained"
+                    size="small"
+                    style={{ margin: "0px 30px 0px 50px" }}
+                    onClick={handleClickAddFollow}
+                  >
+                    {t(`profile.follow`)}
+                  </Button>
+                ) : (
+                  <Button
+                    variant="outlined"
+                    size="small"
+                    style={{ margin: "0px 30px 0px 50px" }}
+                    onClick={handleClickAddFollow}
+                  >
+                    {t(`profile.following`)}
+                  </Button>
+                ))}
+
+              {state && (
+                <Button variant="outlined" size="small">
+                  {t(`profile.message`)}
+                </Button>
+              )}
+            </div>
             <div style={{ display: "flex", marginTop: "15px" }}>
               <div>
-                {t(`profile.feed`)} {itemData.length}
+                {t(`profile.feed`)} {posts.length}
               </div>
               <div style={{ margin: "0px 30px" }}>
                 {t(`profile.follower`)}{" "}
@@ -131,13 +144,13 @@ const Profile = () => {
           </div>
         </div>
         <div style={{ width: "80%", height: "65%" }}>
-          <ImageList sx={{ width: "100%", height: "100%" }} cols={3} gap={20}>
-            {itemData.map((item) => (
-              <ImageListItem key={item.img}>
+          <ImageList sx={{ width: "100%" }} cols={3} gap={24}>
+            {posts.map((post, idx) => (
+              <ImageListItem key={idx} style={{ position: "relative" }} sx={{}}>
                 <img
-                  srcSet={`${item.img}?w=164&h=164&fit=crop&auto=format&dpr=2 2x`}
-                  src={`${item.img}?w=164&h=164&fit=crop&auto=format`}
-                  alt={item.title}
+                  srcSet={`data:image/jpeg;base64,${post?.image_file} 2x`}
+                  src={`data:image/jpeg;base64,${post?.image_file}`}
+                  alt={post?.title}
                   loading="lazy"
                   style={{
                     width: "100%",
@@ -160,7 +173,7 @@ const Profile = () => {
       <ProfileFeed
         openProfileFeed={openProfileFeed}
         setOpenProfileFeed={setOpenProfileFeed}
-        name={"yoolbi"}
+        name={state?.name || user?.username}
       />
     </div>
   );

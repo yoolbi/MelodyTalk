@@ -23,7 +23,7 @@ const Follow = ({ openFollow, setOpenFollow, clickFollowName, users }) => {
 
   const handleClickOtherUser = (data) => {
     console.log(data);
-    navigate("/ProfileOther", { state: { name: data } });
+    navigate("/Profile", { state: { name: data } });
   };
 
   return (
@@ -64,7 +64,7 @@ const Follow = ({ openFollow, setOpenFollow, clickFollowName, users }) => {
                       marginTop: "10px",
                       cursor: "pointer",
                     }}
-                    onClick={() => handleClickOtherUser(data.username)}
+                    onClick={() => handleClickOtherUser(data.user_id)}
                   >
                     {data.username}
                   </b>
