@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.global.react.mapper.FollowMapper">
+	
+	<select id="getFollowers" resultType="com.global.react.domain.FollowDTO">
+		<![CDATA[
+			SELECT 
+				f.FOLLOW_ID
+				,f.FROM_USER_ID
+				,f.TO_USER_ID
+			    ,(SELECT USERNAME FROM USERS u WHERE f.FROM_USER_ID = u.USER_ID) AS from_user_username
+			    ,(SELECT USERNAME FROM USERS u WHERE f.TO_USER_ID = u.USER_ID) AS to_user_username
+			FROM 
+			    FOLLOW f
+			WHERE TO_USER_ID = #{to_user_id}
+		]]>
+	</select>
+	
+	<select id="getFollowings" resultType="com.global.react.domain.FollowDTO">
+		<![CDATA[
+			SELECT 
+				f.FOLLOW_ID
+				,f.FROM_USER_ID
+				,f.TO_USER_ID
+				,(SELECT USERNAME FROM USERS u WHERE f.FROM_USER_ID = u.USER_ID) AS from_user_username
+			    ,(SELECT USERNAME FROM USERS u WHERE f.TO_USER_ID = u.USER_ID) AS to_user_username
+			FROM 
+			    FOLLOW f
+			WHERE FROM_USER_ID = #{from_user_id}
+		]]>
+	</select>
+	
+	<insert id="insertFollow">
+	    INSERT INTO FOLLOW (
+			FOLLOW_ID
+			,FROM_USER_ID
+			,TO_USER_ID
+	    ) VALUES (
+	        #{follow_id}
+	        ,#{from_user_id}
+	        ,#{to_user_id}
+	    )
+	</insert>
+	
+	<delete id="deleteFollow">
+		DELETE FROM FOLLOW WHERE FOLLOW_ID = #{follow_id}
+	</delete>
+
+</mapper>

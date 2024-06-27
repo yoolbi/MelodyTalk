@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.global.react.mapper.PostMapper">
+
+	<select id="getAllPosts" resultType="com.global.react.domain.PostVO">
+		<![CDATA[
+			SELECT 
+			    p.POST_ID,
+			    p.USER_ID,
+			    p.CONTENT,
+			    p.IMAGE,
+			    p.MUSIC_FILE_NAME,
+			    p.COPYRIGHT,
+			    p.CREATEDATE,
+			    p.IMAGE_FILE,
+			    p.MUSIC_FILE,
+			    (SELECT COUNT(*) FROM LIKES l WHERE l.POST_ID = p.POST_ID) AS LIKE_COUNT,
+			    (SELECT USERNAME FROM USERS u WHERE p.USER_ID = u.USER_ID) AS USERNAME
+			FROM 
+			    POST p
+			ORDER BY CREATEDATE DESC
+		]]>
+	</select>
+	
+	<select id="getPostsByUserID" resultType="com.global.react.domain.PostVO">
+		<![CDATA[
+			SELECT 
+			    p.POST_ID,
+			    p.USER_ID,
+			    p.CONTENT,
+			    p.IMAGE,
+			    p.MUSIC_FILE_NAME,
+			    p.COPYRIGHT,
+			    p.CREATEDATE,
+			    p.IMAGE_FILE,
+			    p.MUSIC_FILE,
+			    (SELECT COUNT(*) FROM LIKES l WHERE l.POST_ID = p.POST_ID) AS LIKE_COUNT,
+			    (SELECT USERNAME FROM USERS u WHERE p.USER_ID = u.USER_ID) AS USERNAME
+			FROM 
+			    POST p
+			WHERE USER_ID = #{userID}
+			ORDER BY CREATEDATE DESC
+		]]>
+	</select>
+	
+	<select id="searchPosts" resultType="com.global.react.domain.PostVO">
+	    <![CDATA[
+	        SELECT 
+	            p.POST_ID,
+	            p.USER_ID,
+	            p.CONTENT,
+	            p.IMAGE,
+	            p.MUSIC_FILE_NAME,
+	            p.COPYRIGHT,
+	            p.CREATEDATE,
+	            p.IMAGE_FILE,
+	            p.MUSIC_FILE,
+	            (SELECT COUNT(*) FROM LIKES l WHERE l.POST_ID = p.POST_ID) AS LIKE_COUNT,
+	            (SELECT USERNAME FROM USERS u WHERE p.USER_ID = u.USER_ID) AS USERNAME
+	        FROM 
+	            POST p
+	        WHERE 
+	            p.CONTENT LIKE '%' || #{searchString} || '%'
+	            OR (SELECT USERNAME FROM USERS u WHERE p.USER_ID = u.USER_ID) LIKE '%' || #{searchString} || '%'
+	        ORDER BY CREATEDATE DESC
+	    ]]>
+	</select>
+	
+	<insert id="insertPost">
+	    INSERT INTO POST (
+	        POST_ID,
+	        USER_ID,
+	        CONTENT,
+	        IMAGE,
+	        MUSIC_FILE_NAME,
+	        COPYRIGHT,
+	        IMAGE_FILE,
+	        MUSIC_FILE
+	    ) VALUES (
+	        #{post_id},
+	        #{user_id},
+	        #{content},
+	        #{image},
+	        #{music_file_name},
+	        #{copyright},
+	        #{image_file},
+	        #{music_file}
+	    )
+	</insert>
+	
+	<delete id="deletePost">
+		DELETE FROM POST WHERE POST_ID = #{post_id}
+	</delete>
+
+</mapper>

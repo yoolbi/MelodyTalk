@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.global.react.mapper.UserMapper">
+
+	<select id="getAllUsers" resultType="com.global.react.domain.UserVO">
+		<![CDATA[
+			SELECT * FROM USERS
+		]]>
+	</select>
+	
+	<select id="getUserByID" resultType="com.global.react.domain.UserVO">
+		<![CDATA[
+			SELECT * FROM USERS WHERE USER_ID = #{user_id}
+		]]>
+	</select>
+	
+	<select id="getUserByEmail" resultType="com.global.react.domain.UserVO">
+	    <![CDATA[
+	        SELECT * FROM USERS WHERE EMAIL = #{email}
+	    ]]>
+	</select>
+	
+	<insert id="insertUser">
+		INSERT INTO USERS (
+			USER_ID
+			,USERNAME
+			,EMAIL
+			,PASSWORD
+			,NAME
+			,COUNTRY
+			,INTRO
+		) values (
+			#{user_id}
+			,#{username}
+			,#{email}
+			,#{password}
+			,#{name}
+			,#{country}
+			,#{intro}
+		)
+	</insert>
+
+</mapper>

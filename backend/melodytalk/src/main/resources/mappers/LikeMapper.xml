@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.global.react.mapper.LikeMapper">
+	
+	<select id="getLikesByPost" resultType="com.global.react.domain.LikeDTO">
+		<![CDATA[
+			SELECT
+				l.LIKE_ID
+				,l.POST_ID
+				,l.USER_ID
+				,(SELECT USERNAME FROM USERS u WHERE l.USER_ID = u.USER_ID) AS USERNAME
+			FROM LIKES l
+			WHERE POST_ID = #{post_id}
+		]]>
+	</select>
+	
+	<select id="getLikesByUser" resultType="com.global.react.domain.LikeDTO">
+		<![CDATA[
+			SELECT
+				LIKE_ID
+				,POST_ID
+				,USER_ID
+			FROM LIKES
+			WHERE USER_ID = #{user_id}
+		]]>
+	</select>
+	
+	<insert id="insertLike">
+		INSERT INTO LIKES (
+			LIKE_ID
+			,USER_ID
+			,POST_ID
+		) values (
+			#{like_id}
+			,#{user_id}
+			,#{post_id}
+		)
+	</insert>
+	
+	<delete id="deleteLike">
+	    DELETE FROM LIKES WHERE USER_ID = #{arg0} AND POST_ID = #{arg1}
+	</delete>
+
+</mapper>
