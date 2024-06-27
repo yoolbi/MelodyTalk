@@ -197,6 +197,9 @@ const Profile = () => {
                 </b>
               </div>
             </div>
+            <div style={{ marginTop: "15px" }}>
+              {user.intro} {user.country}
+            </div>
           </div>
         </div>
         <div style={{ width: "80%", height: "65%" }}>
