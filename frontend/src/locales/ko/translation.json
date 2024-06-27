@@ -1,0 +1,47 @@
+{
+  "login": {
+    "email": "이메일",
+    "password": "비밀번호",
+    "login": "로그인",
+    "signup": "계정이 없으신가요? 회원가입",
+    "error_message": "이메일 또는 비밀번호를 확인해주세요"
+  },
+  "signup": {
+    "email": "이메일",
+    "name": "이름",
+    "id": "사용자 ID",
+    "password": "비밀번호",
+    "nationality": "국적",
+    "signup": "회원가입",
+    "login": "계정이 있으신가요? 로그인",
+    "intro": "설명"
+  },
+  "menu": {
+    "home": "홈",
+    "message": "메시지",
+    "post": "업로드",
+    "profile": "프로필",
+    "logout": "로그아웃"
+  },
+  "home": {
+    "search": "검색",
+    "like": "좋아요",
+    "like_unit": "개",
+    "comment": "댓글",
+    "delete": "삭제"
+  },
+  "upload": {
+    "image": "사진 파일 업로드: ",
+    "music": "음원 파일 업로드: ",
+    "comment": "문구를 입력하세요",
+    "copyright": "저작권 확인",
+    "upload": "게시물 공유하기"
+  },
+  "profile": {
+    "feed": "게시물",
+    "follower": "팔로워",
+    "following": "팔로잉",
+    "follow": "팔로우 +",
+    "message": "메시지 보내기"
+  }
+}

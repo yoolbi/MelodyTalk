@@ -1,0 +1,47 @@
+{
+  "login": {
+    "email": "Eメール",
+    "password": "パスワード",
+    "login": "ログイン",
+    "signup": "アカウントはありませんか？ 会員登録",
+    "error_message": "Eメールまたはパスワードをご確認ください"
+  },
+  "signup": {
+    "email": "Eメール",
+    "name": "名前",
+    "id": "ユーザーID",
+    "password": "パスワード",
+    "nationality": "国籍",
+    "signup": "会員登録",
+    "login": "アカウントはお持ちですか？ ログイン",
+    "intro": "説明"
+  },
+  "menu": {
+    "home": "ホーム",
+    "message": "メッセージ",
+    "post": "アップロード",
+    "profile": "プロフィール",
+    "logout": "ログアウト"
+  },
+  "home": {
+    "search": "検索",
+    "like": "ライク",
+    "like_unit": "つ/こ",
+    "comment": "コメント",
+    "delete": "削除"
+  },
+  "upload": {
+    "image": "写真ファイルのアップロード: ",
+    "music": "音源ファイルのアップロード: ",
+    "comment": "フレーズを入力してください",
+    "copyright": "著作権確認",
+    "upload": "掲示物を共有する"
+  },
+  "profile": {
+    "feed": "掲示物",
+    "follower": "フォロワー",
+    "following": "フォローイング",
+    "follow": "フォロー +",
+    "message": "メッセージを送信"
+  }
+}
