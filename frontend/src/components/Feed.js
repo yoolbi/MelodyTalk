@@ -63,7 +63,7 @@ const Feed = (search) => {
   };
 
   const isPostLiked = (post_id) => {
-    return likeData.some((like) => like.post_id === post_id);
+    return likeData && likeData.some((like) => like.post_id === post_id);
   };
 
   const handleClickLike = (idx, post_id) => {
@@ -119,6 +119,18 @@ const Feed = (search) => {
     fetchLikesForCurrentUser();
   }, []);
 
+  useEffect(() => {
+    fetchLikesForCurrentUser();
+  }, []);
+
+  useEffect(() => {
+    getLikesByUserAPI(sessionStorage.getItem("user_id"))
+      .then((res) => {
+        setLikeData(res.data);
+      })
+      .catch((err) => console.log(err));
+  }, []);
+  
   return (
     <>
       {Array.from(posts).map((post, idx) => {
